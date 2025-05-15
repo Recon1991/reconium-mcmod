@@ -28,9 +28,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.TURQUOISE_BLOCK);
         blockWithItem(ModBlocks.LARIMAR_BLOCK);
         blockWithItem(ModBlocks.SAPPHIRE_BLOCK);
-        blockWithItem(ModBlocks.AMETHYST_BLOCK);
+        blockWithItem(ModBlocks.SUGILITE_BLOCK);
         blockWithItem(ModBlocks.SPINEL_BLOCK);
         blockWithItem(ModBlocks.PINK_DIAMOND_BLOCK);
+        blockWithItem(ModBlocks.SERAPHINITE_BLOCK);
+        blockWithItem(ModBlocks.WATERMELON_TOURMALINE_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){

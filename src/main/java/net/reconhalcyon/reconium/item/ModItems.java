@@ -24,9 +24,11 @@ public class ModItems {
     public static final RegistryObject<Item> TURQUOISE = ITEMS.register("turquoise", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LARIMAR = ITEMS.register("larimar", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> AMETHYST = ITEMS.register("amethyst", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SUGILITE = ITEMS.register("sugilite", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPINEL = ITEMS.register("spinel", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> PINK_DIAMOND = ITEMS.register("pink_diamond", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SERAPHINITE = ITEMS.register("seraphinite", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> WATERMELON_TOURMALINE = ITEMS.register("watermelon_tourmaline", () -> new Item(new Item.Properties()));
 
 
     public static void register(IEventBus eventBus){

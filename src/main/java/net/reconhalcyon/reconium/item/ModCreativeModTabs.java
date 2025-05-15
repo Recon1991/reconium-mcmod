@@ -32,9 +32,11 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.TURQUOISE.get());
                         pOutput.accept(ModItems.LARIMAR.get());
                         pOutput.accept(ModItems.SAPPHIRE.get());
-                        pOutput.accept(ModItems.AMETHYST.get());
+                        pOutput.accept(ModItems.SUGILITE.get());
                         pOutput.accept(ModItems.SPINEL.get());
                         pOutput.accept(ModItems.PINK_DIAMOND.get());
+                        pOutput.accept(ModItems.SERAPHINITE.get());
+                        pOutput.accept(ModItems.WATERMELON_TOURMALINE.get());
 
                         pOutput.accept(ModBlocks.MOONSTONE_BLOCK.get());
                         pOutput.accept(ModBlocks.GREY_QUARTZ_BLOCK.get());
@@ -49,9 +51,11 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.TURQUOISE_BLOCK.get());
                         pOutput.accept(ModBlocks.LARIMAR_BLOCK.get());
                         pOutput.accept(ModBlocks.SAPPHIRE_BLOCK.get());
-                        pOutput.accept(ModBlocks.AMETHYST_BLOCK.get());
+                        pOutput.accept(ModBlocks.SUGILITE_BLOCK.get());
                         pOutput.accept(ModBlocks.SPINEL_BLOCK.get());
                         pOutput.accept(ModBlocks.PINK_DIAMOND_BLOCK.get());
+                        pOutput.accept(ModBlocks.SERAPHINITE_BLOCK.get());
+                        pOutput.accept(ModBlocks.WATERMELON_TOURMALINE_BLOCK.get());
                     })
                     .build());
 
