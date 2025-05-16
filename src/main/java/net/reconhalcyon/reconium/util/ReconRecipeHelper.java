@@ -9,8 +9,8 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.function.Consumer;
 
-import static net.minecraft.data.recipes.RecipeBuilder.getHasName;
-import static net.minecraft.data.recipes.RecipeBuilder.has;
+import static net.minecraft.data.recipes.RecipeProvider.getHasName;
+import static net.minecraft.data.recipes.RecipeProvider.has;
 
 public class ReconRecipeHelper {
 
