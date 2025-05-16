@@ -1,6 +1,5 @@
 package net.reconhalcyon.reconium.item;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -56,6 +55,27 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.PINK_DIAMOND_BLOCK.get());
                         pOutput.accept(ModBlocks.SERAPHINITE_BLOCK.get());
                         pOutput.accept(ModBlocks.WATERMELON_TOURMALINE_BLOCK.get());
+
+                        pOutput.accept(ModBlocks.MOONSTONE_GLASS.get());
+                        pOutput.accept(ModBlocks.GREY_QUARTZ_GLASS.get());
+                        pOutput.accept(ModBlocks.HEMATITE_GLASS.get());
+                        pOutput.accept(ModBlocks.ONYX_GLASS.get());
+                        pOutput.accept(ModBlocks.ZIRCON_GLASS.get());
+                        pOutput.accept(ModBlocks.RUBY_GLASS.get());
+                        pOutput.accept(ModBlocks.TOPAZ_GLASS.get());
+                        pOutput.accept(ModBlocks.CITRINE_GLASS.get());
+                        pOutput.accept(ModBlocks.PERIDOT_GLASS.get());
+                        pOutput.accept(ModBlocks.JADE_GLASS.get());
+                        pOutput.accept(ModBlocks.TURQUOISE_GLASS.get());
+                        pOutput.accept(ModBlocks.LARIMAR_GLASS.get());
+                        pOutput.accept(ModBlocks.SAPPHIRE_GLASS.get());
+                        pOutput.accept(ModBlocks.SUGILITE_GLASS.get());
+                        pOutput.accept(ModBlocks.SPINEL_GLASS.get());
+                        pOutput.accept(ModBlocks.PINK_DIAMOND_GLASS.get());
+                        pOutput.accept(ModBlocks.SERAPHINITE_GLASS.get());
+                        pOutput.accept(ModBlocks.WATERMELON_TOURMALINE_GLASS.get());
+
+
                     })
                     .build());
 

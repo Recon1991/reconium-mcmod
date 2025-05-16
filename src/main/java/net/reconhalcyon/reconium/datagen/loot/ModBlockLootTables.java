@@ -5,6 +5,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Set;
 
@@ -15,25 +16,13 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(ModBlocks.MOONSTONE_BLOCK.get());
-        this.dropSelf(ModBlocks.GREY_QUARTZ_BLOCK.get());
-        this.dropSelf(ModBlocks.HEMATITE_BLOCK.get());
-        this.dropSelf(ModBlocks.ONYX_BLOCK.get());
-        this.dropSelf(ModBlocks.ZIRCON_BLOCK.get());
-        this.dropSelf(ModBlocks.RUBY_BLOCK.get());
-        this.dropSelf(ModBlocks.TOPAZ_BLOCK.get());
-        this.dropSelf(ModBlocks.CITRINE_BLOCK.get());
-        this.dropSelf(ModBlocks.PERIDOT_BLOCK.get());
-        this.dropSelf(ModBlocks.JADE_BLOCK.get());
-        this.dropSelf(ModBlocks.TURQUOISE_BLOCK.get());
-        this.dropSelf(ModBlocks.LARIMAR_BLOCK.get());
-        this.dropSelf(ModBlocks.SAPPHIRE_BLOCK.get());
-        this.dropSelf(ModBlocks.SUGILITE_BLOCK.get());
-        this.dropSelf(ModBlocks.SPINEL_BLOCK.get());
-        this.dropSelf(ModBlocks.PINK_DIAMOND_BLOCK.get());
-        this.dropSelf(ModBlocks.SERAPHINITE_BLOCK.get());
-        this.dropSelf(ModBlocks.WATERMELON_TOURMALINE_BLOCK.get());
+        ModGemRegistry.GEM_BLOCKS.values().forEach(block ->
+                this.dropSelf(block.get())
+        );
 
+        ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(block ->
+                this.add(block.get(), createSilkTouchOnlyTable(block.get()))
+        );
     }
 
     @Override
