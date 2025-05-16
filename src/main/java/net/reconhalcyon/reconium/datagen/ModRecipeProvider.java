@@ -2,6 +2,8 @@ package net.reconhalcyon.reconium.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.item.ModItems;
@@ -21,8 +23,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ModGemRegistry.GEMS.keySet().forEach(name -> {
             var gem = ModGemRegistry.GEMS.get(name).get();
             var block = ModGemRegistry.GEM_BLOCKS.get(name).get();
-            ReconRecipeHelper.gemToBlockAndBack(consumer, block, gem);
+            gemToBlockAndBack(consumer, block, gem);
         });
     }
+
+    private void gemToBlockAndBack(Consumer<FinishedRecipe> consumer, Block block, Item gem) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, block)
+                .pattern("MM")
+                .pattern("MM")
+                .define('M', gem)
+                .unlockedBy(getHasName(gem), has(gem))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, gem, 4)
+                .requires(block)
+                .unlockedBy(getHasName(block), has(block))
+                .save(consumer);
+    }
+
 
 }
