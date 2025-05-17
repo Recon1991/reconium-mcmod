@@ -8,10 +8,19 @@ import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
+import java.util.Map;
+
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider (PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, Reconium.MOD_ID, exFileHelper);
     }
+
+    private static final Map<String, String> BASE_STONES = Map.of(
+            "stone", "minecraft:block/stone",
+            "deepslate", "minecraft:block/deepslate",
+            "nether", "minecraft:block/netherrack",
+            "end", "minecraft:block/end_stone"
+    );
 
     @Override
     protected void registerStatesAndModels() {
@@ -29,5 +38,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().cubeAll(blockRegistryObject.getId().getPath(), modLoc("block/" + blockRegistryObject.getId().getPath())));
     }
+
+    private void blockWithOverlayOre(RegistryObject<Block> block, String baseTexture, String overlayTexture) {
+        String name = block.getId().getPath();
+
+        // Block model with overlay
+        models().withExistingParent(name, mcLoc("block/ore"))
+                .texture("base", baseTexture)
+                .texture("overlay", modLoc("block/" + overlayTexture));
+
+        // Blockstate and inventory model
+        simpleBlockWithItem(block.get(), models().getExistingFile(modLoc("block/" + name)));
+    }
+
 
 }
