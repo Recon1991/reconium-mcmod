@@ -16,6 +16,8 @@ public class ModGemRegistry {
     public static final Map<String, RegistryObject<Block>> DEEPSLATE_GEM_ORES = new LinkedHashMap<>();
     public static final Map<String, RegistryObject<Block>> NETHER_GEM_ORES = new LinkedHashMap<>();
     public static final Map<String, RegistryObject<Block>> END_GEM_ORES = new LinkedHashMap<>();
+    // Map each ore block to its base type (e.g., "stone", "deepslate", "nether", "end")
+    public static final Map<RegistryObject<Block>, String> GEM_ORE_BASES = new LinkedHashMap<>();
 
     public static void trackGemItem(String name, RegistryObject<Item> gem){
         GEMS.put(name, gem);
@@ -38,5 +40,9 @@ public class ModGemRegistry {
     }
     public static void trackEndGemOre(String name, RegistryObject<Block> block) {
         END_GEM_ORES.put(name, block);
+    }
+
+    public static void trackGemOreBase(RegistryObject<Block> block, String baseType) {
+        GEM_ORE_BASES.put(block, baseType);
     }
 }

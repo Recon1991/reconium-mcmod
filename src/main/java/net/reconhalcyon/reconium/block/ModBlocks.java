@@ -206,6 +206,7 @@ public class ModBlocks {
                 BLOCKS, ModItems.ITEMS, name + "_ore", supplier
         );
         ModGemRegistry.trackGemOre(name, (RegistryObject<Block>) block);
+        ModGemRegistry.trackGemOreBase((RegistryObject<Block>) block, "stone");
         return block;
     }
     @SuppressWarnings("unchecked")
@@ -219,6 +220,7 @@ public class ModBlocks {
                 BLOCKS, ModItems.ITEMS, "deepslate_" + name + "_ore", supplier
         );
         ModGemRegistry.trackDeepslateGemOre(name, (RegistryObject<Block>) block);
+        ModGemRegistry.trackGemOreBase((RegistryObject<Block>) block, "deepslate");
         return block;
     }
     @SuppressWarnings("unchecked")
@@ -232,6 +234,7 @@ public class ModBlocks {
                 BLOCKS, ModItems.ITEMS, "nether_" + name + "_ore", supplier
         );
         ModGemRegistry.trackNetherGemOre(name, (RegistryObject<Block>) block);
+        ModGemRegistry.trackGemOreBase((RegistryObject<Block>) block, "nether");
         return block;
     }
     @SuppressWarnings("unchecked")
@@ -246,6 +249,7 @@ public class ModBlocks {
                 BLOCKS, ModItems.ITEMS, "end_" + name + "_ore", supplier
         );
         ModGemRegistry.trackEndGemOre(name, (RegistryObject<Block>) block);
+        ModGemRegistry.trackGemOreBase((RegistryObject<Block>) block, "end");
         return block;
     }
 

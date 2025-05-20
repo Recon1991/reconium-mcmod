@@ -9,6 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -74,12 +75,23 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.PINK_DIAMOND_GLASS.get());
                         pOutput.accept(ModBlocks.SERAPHINITE_GLASS.get());
                         pOutput.accept(ModBlocks.WATERMELON_TOURMALINE_GLASS.get());
-
-
                     })
                     .build());
+
+    public static final RegistryObject<CreativeModeTab> RECONIUM_ORES_TAB = CREATIVE_MODE_TABS.register("reconium_ores_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.MOONSTONE_ORE.get()))
+                    .title(Component.translatable("creativetab.reconium_ores_tab"))
+                    .displayItems((pParameters, pOutput) -> {
+                        ModGemRegistry.GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.DEEPSLATE_GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.NETHER_GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.END_GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                    })
+                    .build());
+
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 }
+
