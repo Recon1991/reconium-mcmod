@@ -82,10 +82,10 @@ public class ModCreativeModTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.MOONSTONE_ORE.get()))
                     .title(Component.translatable("creativetab.reconium_ores_tab"))
                     .displayItems((pParameters, pOutput) -> {
-                        ModGemRegistry.GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
-                        ModGemRegistry.DEEPSLATE_GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
-                        ModGemRegistry.NETHER_GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
-                        ModGemRegistry.END_GEM_ORES.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.ORE_BLOCKS_STONE.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.ORE_BLOCKS_DEEPSLATE.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.ORE_BLOCKS_NETHERRACK.values().forEach(block -> pOutput.accept(block.get().asItem()));
+                        ModGemRegistry.ORE_BLOCKS_ENDSTONE.values().forEach(block -> pOutput.accept(block.get().asItem()));
                     })
                     .build());
 

@@ -15,50 +15,51 @@ import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Set;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
+
     public ModBlockLootTables() {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 
-    // Custom method for gem ore drops (like createCopperOreDrops)
     protected LootTable.Builder createGemOreDrops(Block block, Item drop) {
         return createSilkTouchDispatchTable(
-            block,
-            this.applyExplosionDecay(
                 block,
-                LootItem.lootTableItem(drop)
-                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))
-                    .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
-            )
+                this.applyExplosionDecay(
+                        block,
+                        LootItem.lootTableItem(drop)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))
+                                .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
+                )
         );
     }
 
     @Override
     protected void generate() {
+        // Gem Blocks
         ModGemRegistry.GEM_BLOCKS.values().forEach(block ->
                 this.dropSelf(block.get())
         );
 
+        // Gem Glass Blocks (Silk Touch only)
         ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(block ->
                 this.add(block.get(), createSilkTouchOnlyTable(block.get()))
         );
 
-        // Automate loot tables for all gem ores with custom drop counts
-        ModGemRegistry.GEM_ORE_BASES.forEach((block, baseType) -> {
-            assert block.getId() != null;
-            String blockId = block.getId().getPath();
-            String gemName = blockId
-                .replaceFirst("^deepslate_", "")
-                .replaceFirst("^nether_", "")
-                .replaceFirst("^end_", "")
-                .replaceFirst("_ore$", "");
-            RegistryObject<?> gemItemObj = ModGemRegistry.GEMS.get(gemName);
-            if (gemItemObj != null) {
-                this.add(block.get(), createGemOreDrops(block.get(), (Item) gemItemObj.get())); // 2-5 drops
+        // Gem Ores (2–5 drops + Fortune)
+        for (Map<String, RegistryObject<Block>> group : ModGemRegistry.getAllOreBlockGroups()) {
+            for (Map.Entry<String, RegistryObject<Block>> entry : group.entrySet()) {
+                String gemName = entry.getKey();
+                Block block = entry.getValue().get();
+
+                RegistryObject<Item> gemItem = ModGemRegistry.GEMS.get(gemName);
+                if (gemItem != null) {
+                    this.add(block, createGemOreDrops(block, gemItem.get()));
+                }
             }
-        });
+        }
     }
 
     @Override

@@ -3,35 +3,45 @@ package net.reconhalcyon.reconium.datagen;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class ModBlockStateProvider extends BlockStateProvider {
-    public ModBlockStateProvider (PackOutput output, ExistingFileHelper exFileHelper) {
+
+    public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, Reconium.MOD_ID, exFileHelper);
     }
 
-    private static final Map<String, String> BASE_STONES = Map.of(
-            "stone", "minecraft:block/stone",
-            "deepslate", "minecraft:block/deepslate",
-            "nether", "minecraft:block/netherrack",
-            "end", "minecraft:block/end_stone"
-    );
-
     @Override
     protected void registerStatesAndModels() {
-        // Gem Block State Registry Entries
+        for (Map<String, RegistryObject<Block>> group : ModGemRegistry.getAllOreBlockGroups()) {
+            String base = ModGemRegistry.getBaseNameFromMap(group);
+            for (Map.Entry<String, RegistryObject<Block>> entry : group.entrySet()) {
+                String gem = entry.getKey();
+                Block block = entry.getValue().get();
+                registerGemOreModel(block, gem, base);
+            }
+        }
+
         ModGemRegistry.GEM_BLOCKS.values().forEach(this::blockWithItem);
         ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(this::blockWithItemTranslucent);
-        // Register ore blocks with overlays using the new GEM_ORE_BASES map
-        ModGemRegistry.GEM_ORE_BASES.forEach((block, baseType) -> {
-            String baseTexture = BASE_STONES.get(baseType);
-            blockWithOverlayOre(block, baseTexture);
-        });
+    }
+
+    private void registerGemOreModel(Block block, String gemName, String baseTextureName) {
+        String blockName = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+
+        ModelFile model = models().withExistingParent(blockName, modLoc("block/template_overlay"))
+                .texture("base", modLoc("block/base_" + baseTextureName))
+                .texture("overlay", modLoc("block/overlay/gem_" + gemName));
+
+        simpleBlockWithItem(block, model);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){
@@ -43,24 +53,4 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().cubeAll(blockRegistryObject.getId().getPath(), modLoc("block/" + blockRegistryObject.getId().getPath())));
     }
-
-    private void blockWithOverlayOre(RegistryObject<Block> block, String baseTexture) {
-        assert block.getId() != null;
-        String name = block.getId().getPath();
-        // Extract gem name from block name (removes deepslate_, nether_, end_ prefixes and _ore suffix)
-        String gemName = name
-            .replaceFirst("^deepslate_", "")
-            .replaceFirst("^nether_", "")
-            .replaceFirst("^end_", "")
-            .replaceFirst("_ore$", "");
-
-        // Block model with per-gem overlay using vanilla-style layer0/layer1
-        models().withExistingParent(name, modLoc("block/ore"))
-                .texture("layer0", baseTexture)
-                .texture("layer1", modLoc("block/ore_" + gemName));
-
-        // Blockstate and inventory model
-        simpleBlockWithItem(block.get(), models().getExistingFile(modLoc("block/" + name)));
-    }
 }
-
