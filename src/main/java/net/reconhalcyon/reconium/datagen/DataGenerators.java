@@ -8,6 +8,7 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.worldgen.ModConfiguredFeatures;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -31,6 +32,9 @@ public class DataGenerators {
                 new ModBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModItemTagProvider(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModConfiguredFeatureProvider(packOutput, lookupProvider, ModConfiguredFeatures.GEM_ORE_SETTINGS));
+        generator.addProvider(event.includeServer(), new ModPlacedFeaturesProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModBiomeModifiersProvider(packOutput, lookupProvider));
+
     }
 }

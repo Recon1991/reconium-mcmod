@@ -3,7 +3,7 @@
 │ > Mod ID: Reconium >> 
 │ > Purpose: Descriptor
 │ 🤖 Handler: Tachikoma System Core */
-package net.reconhalcyon.reconium.worldgen;
+package net.reconhalcyon.reconium.util;
 /*╰──────────────────────────────────────────────────────  */
 
 import net.minecraft.world.level.levelgen.placement.*;
