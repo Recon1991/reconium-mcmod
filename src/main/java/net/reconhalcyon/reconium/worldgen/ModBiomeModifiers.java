@@ -17,34 +17,33 @@ import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemOreGenSettings;
+import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemSettings;
+import net.reconhalcyon.reconium.worldgen.ModPlacedFeatures;
+import net.reconhalcyon.reconium.worldgen.ModConfiguredFeatures;
 
 public class ModBiomeModifiers {
-    public static final ResourceKey<BiomeModifier> ADD_MOONSTONE_ORE = registerKey("add_moonstone_ore");
-    public static final ResourceKey<BiomeModifier> ADD_NETHER_MOONSTONE_ORE = registerKey("add_nether_moonstone_ore");
-    public static final ResourceKey<BiomeModifier> ADD_END_MOONSTONE_ORE = registerKey("add_end_moonstone_ore");
-
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
-
-        context.register(ADD_MOONSTONE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.MOONSTONE_ORE_PLACED_KEY)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
-
-        context.register(ADD_NETHER_MOONSTONE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_NETHER),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NETHER_MOONSTONE_ORE_PLACED_KEY)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
-
-        context.register(ADD_END_MOONSTONE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_END),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.END_MOONSTONE_ORE_PLACED_KEY)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
+        for (GemSettings gem : ModConfiguredFeatures.GEM_SETTINGS) {
+            for (GemOreGenSettings variant : gem.variants()) {
+                String keyName = "add_" + gem.gemName() + "_" + variant.variant() + "_ore";
+                ResourceKey<BiomeModifier> biomeModKey = registerKey(keyName);
+                String placedKeyName = gem.gemName() + "_" + variant.variant() + "_ore_placed";
+                ResourceKey<net.minecraft.world.level.levelgen.placement.PlacedFeature> placedKey = ModPlacedFeatures.registerKey(placedKeyName);
+                context.register(biomeModKey, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                    biomes.getOrThrow(variant.biomeTag()),
+                    net.minecraft.core.HolderSet.direct(placedFeatures.getOrThrow(placedKey)),
+                    net.minecraft.world.level.levelgen.GenerationStep.Decoration.UNDERGROUND_ORES
+                ));
+            }
+        }
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {
         return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(Reconium.MOD_ID, name));
     }
 }
+

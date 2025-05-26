@@ -27,12 +27,36 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
                 ModGemRegistry.GEM_GLASS_BLOCKS.values().stream().map(RegistryObject::get).toArray(Block[]::new)
         );
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                ModGemRegistry.ORE_BLOCKS_STONE.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                ModGemRegistry.ORE_BLOCKS_DEEPSLATE.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                ModGemRegistry.ORE_BLOCKS_NETHERRACK.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                ModGemRegistry.ORE_BLOCKS_ENDSTONE.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
 
         tag(BlockTags.NEEDS_IRON_TOOL).add(
                 ModGemRegistry.GEM_BLOCKS.values().stream().map(RegistryObject::get).toArray(Block[]::new)
         );
         tag(BlockTags.NEEDS_IRON_TOOL).add(
                 ModGemRegistry.GEM_GLASS_BLOCKS.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.NEEDS_IRON_TOOL).add(
+                ModGemRegistry.ORE_BLOCKS_STONE.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.NEEDS_IRON_TOOL).add(
+                ModGemRegistry.ORE_BLOCKS_DEEPSLATE.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.NEEDS_IRON_TOOL).add(
+                ModGemRegistry.ORE_BLOCKS_NETHERRACK.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+        );
+        tag(BlockTags.NEEDS_IRON_TOOL).add(
+                ModGemRegistry.ORE_BLOCKS_ENDSTONE.values().stream().map(RegistryObject::get).toArray(Block[]::new)
         );
 
     }

@@ -21,30 +21,75 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemOreGenSettings;
+import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemSettings;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class ModConfiguredFeatures {
-    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_MOONSTONE_ORE_KEY = registerKey("moonstone_ore");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NETHER_MOONSTONE_ORE_KEY = registerKey("moonstone_ore");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> END_MOONSTONE_ORE_KEY = registerKey("moonstone_ore");
+    // List of all gem settings (add more gems here as needed)
+    public static final List<GemSettings> GEM_SETTINGS = List.of(
+        new GemSettings(
+            "moonstone",
+            List.of(
+                new GemOreGenSettings(
+                    "overworld",
+                    ModBlocks.MOONSTONE_ORE.get(),
+                    new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
+                    6, 7,
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(-32),
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(128),
+                    net.minecraft.tags.BiomeTags.IS_OVERWORLD
+                ),
+                new GemOreGenSettings(
+                    "deepslate",
+                    ModBlocks.DEEPSLATE_MOONSTONE_ORE.get(),
+                    new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
+                    6, 7,
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(-32),
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(128),
+                    net.minecraft.tags.BiomeTags.IS_OVERWORLD
+                ),
+                new GemOreGenSettings(
+                    "nether",
+                    ModBlocks.NETHER_MOONSTONE_ORE.get(),
+                    new BlockMatchTest(Blocks.NETHERRACK),
+                    5, 5,
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(0),
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(128),
+                    net.minecraft.tags.BiomeTags.IS_NETHER
+                ),
+                new GemOreGenSettings(
+                    "end",
+                    ModBlocks.END_MOONSTONE_ORE.get(),
+                    new BlockMatchTest(Blocks.END_STONE),
+                    4, 3,
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(32),
+                    net.minecraft.world.level.levelgen.VerticalAnchor.aboveBottom(128),
+                    net.minecraft.tags.BiomeTags.IS_END
+                )
+            )
+        )
+        // Add more GemSettings for other gems here
+    );
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
-        RuleTest stoneReplaceables = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
-        RuleTest deepslateReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
-        RuleTest netherrackReplaceables = new BlockMatchTest(Blocks.NETHERRACK);
-        RuleTest endReplaceables = new BlockMatchTest(Blocks.END_STONE);
-
-        List<OreConfiguration.TargetBlockState> overworldMoonstoneOres = List.of(OreConfiguration.target(stoneReplaceables,
-                ModBlocks.MOONSTONE_ORE.get().defaultBlockState()),
-                OreConfiguration.target(deepslateReplaceables, ModBlocks.DEEPSLATE_MOONSTONE_ORE.get().defaultBlockState()));
-
-        register(context, OVERWORLD_MOONSTONE_ORE_KEY, Feature.ORE, new OreConfiguration(overworldMoonstoneOres, 6));
-        register(context, NETHER_MOONSTONE_ORE_KEY, Feature.ORE, new OreConfiguration(netherrackReplaceables,
-                ModBlocks.NETHER_MOONSTONE_ORE.get().defaultBlockState(), 6));
-        register(context, END_MOONSTONE_ORE_KEY, Feature.ORE, new OreConfiguration(endReplaceables,
-                ModBlocks.END_MOONSTONE_ORE.get().defaultBlockState(), 6));
-
+        for (GemSettings gem : GEM_SETTINGS) {
+            for (GemOreGenSettings variant : gem.variants()) {
+                String keyName = gem.gemName() + "_" + variant.variant() + "_ore";
+                ResourceKey<ConfiguredFeature<?, ?>> key = registerKey(keyName);
+                OreConfiguration.TargetBlockState target = OreConfiguration.target(
+                    variant.ruleTest(),
+                    variant.oreBlock().defaultBlockState()
+                );
+                OreConfiguration config = new OreConfiguration(
+                    List.of(target),
+                    variant.veinSize()
+                );
+                register(context, key, Feature.ORE, config);
+            }
+        }
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name){
@@ -56,3 +101,4 @@ public class ModConfiguredFeatures {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
     }
 }
+

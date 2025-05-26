@@ -18,28 +18,34 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemOreGenSettings;
+import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemSettings;
+import net.reconhalcyon.reconium.worldgen.ModConfiguredFeatures;
 
 import java.util.List;
 
 public class ModPlacedFeatures {
-    public static final ResourceKey<PlacedFeature> MOONSTONE_ORE_PLACED_KEY = registerKey("moonstone_ore_placed");
-    public static final ResourceKey<PlacedFeature> NETHER_MOONSTONE_ORE_PLACED_KEY = registerKey("moonstone_ore_placed");
-    public static final ResourceKey<PlacedFeature> END_MOONSTONE_ORE_PLACED_KEY = registerKey("moonstone_ore_placed");
-
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
-
-        register(context, MOONSTONE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_MOONSTONE_ORE_KEY),
-                ModOrePlacement.commonOrePlacement(12,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
-        register(context, NETHER_MOONSTONE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.NETHER_MOONSTONE_ORE_KEY),
-                ModOrePlacement.commonOrePlacement(12,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
-        register(context, END_MOONSTONE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.END_MOONSTONE_ORE_KEY),
-                ModOrePlacement.commonOrePlacement(12,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+        for (GemSettings gem : ModConfiguredFeatures.GEM_SETTINGS) {
+            for (GemOreGenSettings variant : gem.variants()) {
+                String keyName = gem.gemName() + "_" + variant.variant() + "_ore_placed";
+                ResourceKey<PlacedFeature> placedKey = registerKey(keyName);
+                String configuredKeyName = gem.gemName() + "_" + variant.variant() + "_ore";
+                ResourceKey<ConfiguredFeature<?, ?>> configuredKey = ModConfiguredFeatures.registerKey(configuredKeyName);
+                Holder<ConfiguredFeature<?, ?>> configuredHolder = configuredFeatures.getOrThrow(configuredKey);
+                // Placement settings can be customized per variant if needed
+                List<PlacementModifier> modifiers = ModOrePlacement.commonOrePlacement(
+                    variant.veinsPerChunk(),
+                    HeightRangePlacement.uniform(variant.minY(), variant.maxY())
+                );
+                register(context, placedKey, configuredHolder, modifiers);
+            }
+        }
     }
-    private static ResourceKey<PlacedFeature> registerKey(String name){
+
+    // Changed from private to public for cross-class access
+    public static ResourceKey<PlacedFeature> registerKey(String name){
         return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(Reconium.MOD_ID, name));
     }
 
