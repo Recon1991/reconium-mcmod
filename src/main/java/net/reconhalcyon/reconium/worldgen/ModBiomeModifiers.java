@@ -6,21 +6,16 @@
 package net.reconhalcyon.reconium.worldgen;
 /*╰──────────────────────────────────────────────────────  */
 
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemOreGenSettings;
 import net.reconhalcyon.reconium.worldgen.ModGemOreGenSettings.GemSettings;
-import net.reconhalcyon.reconium.worldgen.ModPlacedFeatures;
-import net.reconhalcyon.reconium.worldgen.ModConfiguredFeatures;
 
 public class ModBiomeModifiers {
 

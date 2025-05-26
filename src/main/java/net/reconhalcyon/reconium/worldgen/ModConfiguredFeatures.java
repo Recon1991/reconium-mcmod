@@ -141,6 +141,7 @@ public class ModConfiguredFeatures {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Reconium.MOD_ID, name));
     }
 
+    //unchecked//
     private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context,
                                                                                           ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
