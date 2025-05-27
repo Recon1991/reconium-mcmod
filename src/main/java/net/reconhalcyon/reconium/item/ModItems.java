@@ -1,11 +1,13 @@
 package net.reconhalcyon.reconium.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import net.reconhalcyon.reconium.registry.ReconRegistryHelper;
 
@@ -32,13 +34,13 @@ public class ModItems {
     public static final RegistryObject<Item> SERAPHINITE = createAndRegisterGemItem("seraphinite");
     public static final RegistryObject<Item> WATERMELON_TOURMALINE = createAndRegisterGemItem("watermelon_tourmaline");
 
+
     // Gem register helper method to condense boilerplate
     private static RegistryObject<Item> createAndRegisterGemItem(String name) {
         RegistryObject<Item> item = ReconRegistryHelper.registerSimpleItem(ITEMS, name);
         ModGemRegistry.trackGemItem(name, item);
         return item;
     }
-
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

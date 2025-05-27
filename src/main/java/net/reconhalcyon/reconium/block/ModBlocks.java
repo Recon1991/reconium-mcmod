@@ -2,6 +2,7 @@ package net.reconhalcyon.reconium.block;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -11,17 +12,19 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.block.custom.CustomBuddingGemBlock;
 import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import net.reconhalcyon.reconium.registry.ReconRegistryHelper;
 
+import java.util.Locale;
 import java.util.function.Supplier;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Reconium.MOD_ID);
 
-    // Gem Blocks
+    // ═══╬═══ Base Gem Blocks ═══╬═══
     public static final RegistryObject<Block> MOONSTONE_BLOCK = createAndRegisterGemBlock("moonstone");
     public static final RegistryObject<Block> GREY_QUARTZ_BLOCK = createAndRegisterGemBlock("grey_quartz");
     public static final RegistryObject<Block> HEMATITE_BLOCK = createAndRegisterGemBlock("hematite");
@@ -41,7 +44,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> SERAPHINITE_BLOCK = createAndRegisterGemBlock("seraphinite");
     public static final RegistryObject<Block> WATERMELON_TOURMALINE_BLOCK = createAndRegisterGemBlock("watermelon_tourmaline");
 
-    // Gem Glass Blocks
+    // ═══╬═══ Gem Glass Blocks ═══╬═══
     public static final RegistryObject<Block> MOONSTONE_GLASS = createAndRegisterGemGlassBlock("moonstone");
     public static final RegistryObject<Block> GREY_QUARTZ_GLASS = createAndRegisterGemGlassBlock("grey_quartz");
     public static final RegistryObject<Block> HEMATITE_GLASS = createAndRegisterGemGlassBlock("hematite");
@@ -61,7 +64,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> SERAPHINITE_GLASS = createAndRegisterGemGlassBlock("seraphinite");
     public static final RegistryObject<Block> WATERMELON_TOURMALINE_GLASS = createAndRegisterGemGlassBlock("watermelon_tourmaline");
 
-
+    // ═══╬═══ Gem Ores ═══╬═══
     public static final RegistryObject<Block> MOONSTONE_ORE = createAndRegisterGemOre("moonstone");
     public static final RegistryObject<Block> DEEPSLATE_MOONSTONE_ORE = createAndRegisterDeepslateGemOre("moonstone");
     public static final RegistryObject<Block> NETHER_MOONSTONE_ORE = createAndRegisterNetherGemOre("moonstone");
@@ -151,7 +154,6 @@ public class ModBlocks {
     public static final RegistryObject<Block> DEEPSLATE_WATERMELON_TOURMALINE_ORE = createAndRegisterDeepslateGemOre("watermelon_tourmaline");
     public static final RegistryObject<Block> NETHER_WATERMELON_TOURMALINE_ORE = createAndRegisterNetherGemOre("watermelon_tourmaline");
     public static final RegistryObject<Block> END_WATERMELON_TOURMALINE_ORE = createAndRegisterEndGemOre("watermelon_tourmaline");
-
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -251,6 +253,27 @@ public class ModBlocks {
         ModGemRegistry.trackEndGemOre(name, (RegistryObject<Block>) block);
         ModGemRegistry.trackGemOreBase((RegistryObject<Block>) block, "end");
         return block;
+    }
+
+    public static void registerGemBudStages(String gemId) {
+        String base = gemId.toLowerCase(Locale.ROOT);
+
+        RegistryObject<Block> budding = BLOCKS.register("budding_" + base,
+                () -> new CustomBuddingGemBlock(gemId, BlockBehaviour.Properties.copy(Blocks.BUDDING_AMETHYST)));
+
+        RegistryObject<Block> small = BLOCKS.register("small_" + base + "_bud",
+                () -> new AmethystClusterBlock(1, 3, BlockBehaviour.Properties.copy(Blocks.SMALL_AMETHYST_BUD).noOcclusion()));
+
+        RegistryObject<Block> medium = BLOCKS.register("medium_" + base + "_bud",
+                () -> new AmethystClusterBlock(2, 4, BlockBehaviour.Properties.copy(Blocks.MEDIUM_AMETHYST_BUD).noOcclusion()));
+
+        RegistryObject<Block> large = BLOCKS.register("large_" + base + "_bud",
+                () -> new AmethystClusterBlock(3, 5, BlockBehaviour.Properties.copy(Blocks.LARGE_AMETHYST_BUD).noOcclusion()));
+
+        RegistryObject<Block> cluster = BLOCKS.register(base + "_cluster",
+                () -> new AmethystClusterBlock(4, 6, BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).noOcclusion()));
+
+        ModGemRegistry.trackGemBuddingBlocks(gemId, budding, small, medium, large, cluster);
     }
 
     public static void register(IEventBus eventBus){BLOCKS.register(eventBus);

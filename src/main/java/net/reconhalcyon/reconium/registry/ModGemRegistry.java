@@ -24,6 +24,14 @@ public class ModGemRegistry {
     // ═══╬═══ Optional: Map block registry to base type name ═══╬═══
     public static final Map<RegistryObject<Block>, String> GEM_ORE_BASES = new LinkedHashMap<>();
 
+    // ═══╬═══ Budding Gem Block Maps ═══╬═══
+    public static final Map<String, RegistryObject<Block>> BUDDING_BLOCKS = new LinkedHashMap<>();
+    public static final Map<String, RegistryObject<Block>> SMALL_BUDS = new LinkedHashMap<>();
+    public static final Map<String, RegistryObject<Block>> MEDIUM_BUDS = new LinkedHashMap<>();
+    public static final Map<String, RegistryObject<Block>> LARGE_BUDS = new LinkedHashMap<>();
+    public static final Map<String, RegistryObject<Block>> CLUSTERS = new LinkedHashMap<>();
+
+
     // ═══╬═══ Tracking Helpers ═══╬═══
     public static void trackGemItem(String name, RegistryObject<Item> gem) {
         GEMS.put(name, gem);
@@ -78,4 +86,19 @@ public class ModGemRegistry {
     public static void trackGemOreBase(RegistryObject<Block> block, String baseType) {
         GEM_ORE_BASES.put(block, baseType);
     }
+
+    public static void trackGemBuddingBlocks(String name,
+                                             RegistryObject<Block> budding,
+                                             RegistryObject<Block> small,
+                                             RegistryObject<Block> medium,
+                                             RegistryObject<Block> large,
+                                             RegistryObject<Block> cluster) {
+
+        BUDDING_BLOCKS.put(name, budding);
+        SMALL_BUDS.put(name, small);
+        MEDIUM_BUDS.put(name, medium);
+        LARGE_BUDS.put(name, large);
+        CLUSTERS.put(name, cluster);
+    }
+
 }
