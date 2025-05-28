@@ -1,26 +1,32 @@
 package net.reconhalcyon.reconium.datagen.loot;
 
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraftforge.registries.RegistryObject;
+import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
-import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
 
@@ -28,46 +34,107 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 
-    protected LootTable.Builder createGemOreDrops(Block block, Item drop) {
-        return createSilkTouchDispatchTable(
-                block,
-                this.applyExplosionDecay(
-                        block,
-                        LootItem.lootTableItem(drop)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))
-                                .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
-                )
-        );
-    }
-
     @Override
     protected void generate() {
-        // Gem Blocks
-        ModGemRegistry.GEM_BLOCKS.values().forEach(block ->
-                this.dropSelf(block.get())
+        // Gem Blocks: always drop self
+        ModGemRegistry.GEM_BLOCKS.values().forEach(reg ->
+                this.dropSelf(reg.get())
         );
 
-        // Gem Glass Blocks (Silk Touch only)
-        ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(block ->
-                this.add(block.get(), createSilkTouchOnlyTable(block.get()))
+        // Gem Glass Blocks: silk touch only
+        ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(reg ->
+                this.add(reg.get(), createSilkTouchOnlyTable(reg.get()))
         );
 
-        // Gem Ores (2–5 drops + Fortune)
-        for (Map<String, RegistryObject<Block>> group : ModGemRegistry.getAllOreBlockGroups()) {
+        // Gem Ores: unified loot table with geology pickaxe vs normal
+        TagKey<Item> geologyPickTag = ItemTags.create(
+                new ResourceLocation(Reconium.MOD_ID, "geology_pickaxes")
+        );
+
+        ModGemRegistry.getAllOreBlockGroups().forEach(group -> {
             for (Map.Entry<String, RegistryObject<Block>> entry : group.entrySet()) {
                 String gemName = entry.getKey();
-                Block block = entry.getValue().get();
+                Block  block   = entry.getValue().get();
+                Item   drop    = ModGemRegistry.GEMS.get(gemName).get();
 
-                RegistryObject<Item> gemItem = ModGemRegistry.GEMS.get(gemName);
-                if (gemItem != null) {
-                    this.add(block, createGemOreDrops(block, gemItem.get()));
-                }
+                LootTable.Builder builder = LootTable.lootTable()
+                        // Pool #1: geology pickaxe yields 2–5 + Fortune
+                        .withPool(LootPool.lootPool()
+                                .when(MatchTool.toolMatches(
+                                        ItemPredicate.Builder.item()
+                                                .of(geologyPickTag)
+                                ))
+                                .add(LootItem.lootTableItem(drop)
+                                        .apply(SetItemCountFunction.setCount(
+                                                UniformGenerator.between(2, 5)
+                                        ))
+                                        .apply(ApplyBonusCount.addUniformBonusCount(
+                                                Enchantments.BLOCK_FORTUNE
+                                        ))
+                                )
+                        )
+                        // Pool #2: normal pick yields 1–2 + Fortune
+                        .withPool(LootPool.lootPool()
+                                .when(InvertedLootItemCondition.invert(
+                                        MatchTool.toolMatches(
+                                                ItemPredicate.Builder.item()
+                                                        .of(geologyPickTag)
+                                        )
+                                ))
+                                .add(LootItem.lootTableItem(drop)
+                                        .apply(SetItemCountFunction.setCount(
+                                                UniformGenerator.between(1, 2)
+                                        ))
+                                        .apply(ApplyBonusCount.addUniformBonusCount(
+                                                Enchantments.BLOCK_FORTUNE
+                                        ))
+                                )
+                        );
+
+                this.add(block, builder);
             }
-        }
+        });
+
+        // Budding Blocks: drop self
+        ModGemRegistry.BUDDING_BLOCKS.values().forEach(reg ->
+                this.dropSelf(reg.get())
+        );
+
+        // Bud Stages: small/medium/large drop only with Silk Touch
+        Stream.of(
+                        ModGemRegistry.SMALL_BUDS,
+                        ModGemRegistry.MEDIUM_BUDS,
+                        ModGemRegistry.LARGE_BUDS
+                ).flatMap(map -> map.values().stream())
+                .forEach(reg -> this.add(reg.get(), createSilkTouchOnlyTable(reg.get())));
+
+        // Clusters: silk touch yields block, otherwise drop shards 4–5 + Fortune
+        ModGemRegistry.CLUSTERS.forEach((gemName, reg) -> {
+            Block clusterBlock = reg.get();
+            Item shardItem    = ModGemRegistry.GEMS.get(gemName).get();
+
+            this.add(clusterBlock,
+                    createSilkTouchDispatchTable(
+                            clusterBlock,
+                            applyExplosionDecay(clusterBlock,
+                                    LootItem.lootTableItem(shardItem)
+                                            .apply(SetItemCountFunction.setCount(
+                                                    UniformGenerator.between(4, 5)
+                                            ))
+                                            .apply(ApplyBonusCount.addUniformBonusCount(
+                                                    Enchantments.BLOCK_FORTUNE
+                                            ))
+                            )
+                    )
+            );
+        });
     }
 
     @Override
     protected @NotNull Iterable<Block> getKnownBlocks() {
-        return ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+        // Return all blocks registered in ModBlocks
+        return ModBlocks.BLOCKS.getEntries().stream()
+                .map(RegistryObject::get)
+                .collect(Collectors.toList());
     }
 }

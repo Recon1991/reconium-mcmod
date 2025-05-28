@@ -276,6 +276,8 @@ public class ModBlocks {
         ModGemRegistry.trackGemBuddingBlocks(gemId, budding, small, medium, large, cluster);
     }
 
-    public static void register(IEventBus eventBus){BLOCKS.register(eventBus);
+    public static void register(IEventBus eventBus){
+        BLOCKS.register(eventBus);
+        ModGemRegistry.GEMS.keySet().forEach(ModBlocks::registerGemBudStages);
     }
 }
