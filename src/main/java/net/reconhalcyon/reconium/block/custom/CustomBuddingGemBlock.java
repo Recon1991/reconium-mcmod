@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,11 +29,13 @@ public class CustomBuddingGemBlock extends AmethystBlock {
             BlockPos targetPos = pos.relative(dir);
             BlockState targetState = level.getBlockState(targetPos);
 
+            // ═══╬═══ Gem Registry Group Maps ═══╬═══
             Block small = ModGemRegistry.SMALL_BUDS.get(gemId).get();
             Block medium = ModGemRegistry.MEDIUM_BUDS.get(gemId).get();
             Block large = ModGemRegistry.LARGE_BUDS.get(gemId).get();
             Block cluster = ModGemRegistry.CLUSTERS.get(gemId).get();
 
+            // ═══╬═══ Cluster Growing Logic ═══╬═══
             Block nextStage = null;
             if (canClusterGrowAtState(targetState)) {
                 nextStage = small;
