@@ -2,22 +2,17 @@ package net.reconhalcyon.reconium.datagen;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
-import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 
@@ -44,7 +39,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
             simpleBlock(ModGemRegistry.BUDDING_BLOCKS.get(gemId).get(),
                     models().cubeAll("budding_" + base, modLoc("block/budding/budding_" + base)));
 
-            // Cluster blocks: use amethyst cluster model style (cross shape with direction)
+            // Cluster blocks
             createAmethystClusterModel(ModGemRegistry.SMALL_BUDS.get(gemId), "small_" + base + "_bud");
             createAmethystClusterModel(ModGemRegistry.MEDIUM_BUDS.get(gemId), "medium_" + base + "_bud");
             createAmethystClusterModel(ModGemRegistry.LARGE_BUDS.get(gemId), "large_" + base + "_bud");
@@ -75,5 +70,4 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .build();
         });
     }
-
 }
