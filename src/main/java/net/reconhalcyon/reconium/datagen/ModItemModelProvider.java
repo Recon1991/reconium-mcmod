@@ -30,16 +30,16 @@ public class ModItemModelProvider extends ItemModelProvider {
             String base = gemId.toLowerCase(Locale.ROOT);
 
             withExistingParent(ModGemRegistry.BUDDING_BLOCKS.get(gemId).getId().getPath(),
-                    modLoc("block/budding_" + base));
+                    modLoc("block/budding/budding_" + base));
 
             withExistingParent(ModGemRegistry.SMALL_BUDS.get(gemId).getId().getPath(),
-                    modLoc("block/small_" + base + "_bud"));
+                    modLoc("block/budding/small_" + base + "_bud"));
             withExistingParent(ModGemRegistry.MEDIUM_BUDS.get(gemId).getId().getPath(),
-                    modLoc("block/medium_" + base + "_bud"));
+                    modLoc("block/budding/medium_" + base + "_bud"));
             withExistingParent(ModGemRegistry.LARGE_BUDS.get(gemId).getId().getPath(),
-                    modLoc("block/large_" + base + "_bud"));
+                    modLoc("block/budding/large_" + base + "_bud"));
             withExistingParent(ModGemRegistry.CLUSTERS.get(gemId).getId().getPath(),
-                    modLoc("block/" + base + "_cluster"));
+                    modLoc("block/budding/" + base + "_cluster"));
         }
     }
 

@@ -42,7 +42,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
             // Budding block (like budding_amethyst): cube_all
             simpleBlock(ModGemRegistry.BUDDING_BLOCKS.get(gemId).get(),
-                    models().cubeAll("budding_" + base, modLoc("block/budding_" + base)));
+                    models().cubeAll("budding_" + base, modLoc("block/budding/budding_" + base)));
 
             // Cluster blocks: use amethyst cluster model style (cross shape with direction)
             createAmethystClusterModel(ModGemRegistry.SMALL_BUDS.get(gemId), "small_" + base + "_bud");
@@ -68,7 +68,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
             boolean waterlogged = state.hasProperty(AmethystClusterBlock.WATERLOGGED) && state.getValue(AmethystClusterBlock.WATERLOGGED);
 
             return ConfiguredModel.builder()
-                    .modelFile(models().cross(name, modLoc("block/" + name)).renderType("cutout"))
+                    .modelFile(models().cross(name, modLoc("block/budding/" + name)).renderType("cutout"))
                     .rotationX(dir.getAxis().isVertical() ? (dir == Direction.UP ? 0 : 180) : 90)
                     .rotationY((int) dir.toYRot())
                     .uvLock(true)
