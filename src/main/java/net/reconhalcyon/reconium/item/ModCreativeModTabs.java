@@ -89,6 +89,28 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
+    public static final RegistryObject<CreativeModeTab> RECONIUM_BUDDING_TAB = CREATIVE_MODE_TABS.register("reconium_budding_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModBlocks.RUBY_BLOCK.get()))  // pick any icon, e.g. budding_ruby if you like
+                    .title(Component.translatable("creativetab.reconium_budding_tab"))
+                    .displayItems((params, output) -> {
+                        // budding blocks
+                        ModGemRegistry.BUDDING_BLOCKS.values()
+                                .forEach(reg -> output.accept(reg.get().asItem()));
+                        // small / medium / large buds
+                        ModGemRegistry.SMALL_BUDS.values()
+                                .forEach(reg -> output.accept(reg.get().asItem()));
+                        ModGemRegistry.MEDIUM_BUDS.values()
+                                .forEach(reg -> output.accept(reg.get().asItem()));
+                        ModGemRegistry.LARGE_BUDS.values()
+                                .forEach(reg -> output.accept(reg.get().asItem()));
+                        // full clusters
+                        ModGemRegistry.CLUSTERS.values()
+                                .forEach(reg -> output.accept(reg.get().asItem()));
+                    })
+                    .build());
+
+
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
     }

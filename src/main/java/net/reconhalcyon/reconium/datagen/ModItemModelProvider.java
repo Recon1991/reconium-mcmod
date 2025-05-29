@@ -55,5 +55,4 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(block.getId().getPath(),
                 modLoc("block/" + block.getId().getPath()));
     }
-
 }
