@@ -259,21 +259,32 @@ public class ModBlocks {
         String base = gemId.toLowerCase(Locale.ROOT);
 
         RegistryObject<Block> budding = BLOCKS.register("budding_" + base,
-                () -> new CustomBuddingGemBlock(gemId, BlockBehaviour.Properties.copy(Blocks.BUDDING_AMETHYST)));
+                () -> new CustomBuddingGemBlock(gemId,
+                        BlockBehaviour.Properties.copy(Blocks.BUDDING_AMETHYST)));
 
         RegistryObject<Block> small = BLOCKS.register("small_" + base + "_bud",
-                () -> new AmethystClusterBlock(1, 3, BlockBehaviour.Properties.copy(Blocks.SMALL_AMETHYST_BUD).noOcclusion()));
+                () -> new AmethystClusterBlock(1, 3,
+                        BlockBehaviour.Properties.copy(Blocks.SMALL_AMETHYST_BUD).noOcclusion()));
 
         RegistryObject<Block> medium = BLOCKS.register("medium_" + base + "_bud",
-                () -> new AmethystClusterBlock(2, 4, BlockBehaviour.Properties.copy(Blocks.MEDIUM_AMETHYST_BUD).noOcclusion()));
+                () -> new AmethystClusterBlock(2, 4,
+                        BlockBehaviour.Properties.copy(Blocks.MEDIUM_AMETHYST_BUD).noOcclusion()));
 
         RegistryObject<Block> large = BLOCKS.register("large_" + base + "_bud",
-                () -> new AmethystClusterBlock(3, 5, BlockBehaviour.Properties.copy(Blocks.LARGE_AMETHYST_BUD).noOcclusion()));
+                () -> new AmethystClusterBlock(3, 5,
+                        BlockBehaviour.Properties.copy(Blocks.LARGE_AMETHYST_BUD).noOcclusion()));
 
         RegistryObject<Block> cluster = BLOCKS.register(base + "_cluster",
-                () -> new AmethystClusterBlock(4, 6, BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).noOcclusion()));
+                () -> new AmethystClusterBlock(4, 6,
+                        BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).noOcclusion()));
 
         ModGemRegistry.trackGemBuddingBlocks(gemId, budding, small, medium, large, cluster);
+
+        registerBlockItem("budding_" + base, budding);
+        registerBlockItem("small_"   + base + "_bud", small);
+        registerBlockItem("medium_"  + base + "_bud", medium);
+        registerBlockItem("large_"   + base + "_bud", large);
+        registerBlockItem(base       + "_cluster",   cluster);
     }
 
     public static void register(IEventBus eventBus){
