@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +42,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             Block gemBlock = ModGemRegistry.GEM_BLOCKS.get(name).get();
             gemBuddingBlockRecipe(consumer, buddingBlock, gem, gemBlock);
         });
+
+        // ═══╬═══ Geology Pickaxe Recipe ═══╬═══
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.GEOLOGY_PICKAXE.get())
+                .pattern("ISI")
+                .pattern(" S ")
+                .pattern(" S ")
+                .define('I', Items.IRON_INGOT)
+                .define('S', Items.STICK)
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
+                .save(consumer, new ResourceLocation(Reconium.MOD_ID, "geology_pickaxe"));
     }
 
     private void gemToBlockAndBack(Consumer<FinishedRecipe> consumer, Block block, Item gem) {

@@ -113,20 +113,36 @@ public class ModBlockLootTables extends BlockLootSubProvider {
             Block clusterBlock = reg.get();
             Item shardItem    = ModGemRegistry.GEMS.get(gemName).get();
 
-            this.add(clusterBlock,
-                    createSilkTouchDispatchTable(
-                            clusterBlock,
-                            applyExplosionDecay(clusterBlock,
-                                    LootItem.lootTableItem(shardItem)
-                                            .apply(SetItemCountFunction.setCount(
-                                                    UniformGenerator.between(4, 5)
-                                            ))
-                                            .apply(ApplyBonusCount.addUniformBonusCount(
-                                                    Enchantments.BLOCK_FORTUNE
-                                            ))
+            LootTable.Builder builder = LootTable.lootTable()
+                    // Pool 1: geology pickaxe, 4–5 + Fortune 2
+                    .withPool(LootPool.lootPool()
+                            .when(MatchTool.toolMatches(
+                                    ItemPredicate.Builder.item().of(geologyPickTag)
+                            ))
+                            .add(LootItem.lootTableItem(shardItem)
+                                    .apply(SetItemCountFunction.setCount(
+                                            UniformGenerator.between(4, 5)
+                                    ))
+                                    .apply(ApplyBonusCount.addUniformBonusCount(
+                                            Enchantments.BLOCK_FORTUNE, 2 // Fortune level 2
+                                    ))
                             )
                     )
-            );
+                    // Pool 2: other tools, 1–2, no Fortune
+                    .withPool(LootPool.lootPool()
+                            .when(InvertedLootItemCondition.invert(
+                                    MatchTool.toolMatches(
+                                            ItemPredicate.Builder.item().of(geologyPickTag)
+                                    )
+                            ))
+                            .add(LootItem.lootTableItem(shardItem)
+                                    .apply(SetItemCountFunction.setCount(
+                                            UniformGenerator.between(1, 2)
+                                    ))
+                            )
+                    );
+
+            this.add(clusterBlock, builder);
         });
     }
 

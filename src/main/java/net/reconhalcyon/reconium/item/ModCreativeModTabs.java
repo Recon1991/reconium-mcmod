@@ -110,9 +110,19 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
+    public static final RegistryObject<CreativeModeTab> RECONIUM_TOOLS_TAB = CREATIVE_MODE_TABS.register("reconium_tools_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModItems.GEOLOGY_PICKAXE.get()))
+                    .title(Component.translatable("creativetab.reconium_tools_tab"))
+                    .displayItems((params, output) -> {
+                        ModItems.GEOLOGY_PICKAXE.get();
+                    })
+                    .build());
+
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 }
+
 
