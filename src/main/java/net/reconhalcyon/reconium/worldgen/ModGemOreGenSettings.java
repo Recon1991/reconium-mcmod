@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import java.util.List;
 
 /**
- * Encapsulates all ore generation settings for a single gem, including all its worldgen variants (overworld, deepslate, nether, end, etc).
+ * Encapsulates all ore generation settings for a single gem, including all its world gen variants (overworld, deepslate, nether, end, etc.).
  */
 public class ModGemOreGenSettings {
     public record GemOreGenSettings(

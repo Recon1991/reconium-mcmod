@@ -13,7 +13,7 @@ public final class ModTiers {
             250,                   // max uses (durability)
             6.0F,                  // mining speed multiplier
             2.0F,                  // attack damage bonus
-            14,                    // enchantability
+            14,                    // enchant level
             BlockTags.NEEDS_IRON_TOOL, // blocks this tier can mine
             () -> Ingredient.of(Items.IRON_INGOT) // repair material
     );

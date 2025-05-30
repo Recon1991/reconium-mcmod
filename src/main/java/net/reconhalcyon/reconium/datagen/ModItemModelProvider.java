@@ -4,7 +4,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -43,9 +42,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         }
     }
 
-    private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
+    private void simpleItem(RegistryObject<Item> item) {
         assert item.getId() != null;
-        return withExistingParent(item.getId().getPath(),
+        withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(Reconium.MOD_ID, "item/" + item.getId().getPath()));
     }
