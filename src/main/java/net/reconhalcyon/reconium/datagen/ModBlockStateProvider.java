@@ -8,6 +8,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
@@ -58,16 +59,44 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void createAmethystClusterModel(RegistryObject<Block> block, String name) {
+        System.out.println("→ Generating cluster model for: " + name);
+        ModelFile model = models().cross(name, modLoc("block/budding/" + name)).renderType("cutout");
         getVariantBuilder(block.get()).forAllStates(state -> {
             Direction dir = state.getValue(AmethystClusterBlock.FACING);
-            boolean waterlogged = state.hasProperty(AmethystClusterBlock.WATERLOGGED) && state.getValue(AmethystClusterBlock.WATERLOGGED);
-
+            int rotX, rotY;
+            rotY = switch (dir) {
+                case DOWN -> {
+                    rotX = 180;
+                    yield 0;
+                }
+                case NORTH -> {
+                    rotX = 90;
+                    yield 0;
+                }
+                case SOUTH -> {
+                    rotX = 90;
+                    yield 180;
+                }
+                case WEST -> {
+                    rotX = 90;
+                    yield 270;
+                }
+                case EAST -> {
+                    rotX = 90;
+                    yield 90;
+                }
+                default -> {
+                    rotX = 0;
+                    yield 0;
+                }
+            };
             return ConfiguredModel.builder()
-                    .modelFile(models().cross(name, modLoc("block/budding/" + name)).renderType("cutout"))
-                    .rotationX(dir.getAxis().isVertical() ? (dir == Direction.UP ? 0 : 180) : 90)
-                    .rotationY((int) dir.toYRot())
-                    .uvLock(true)
+                    .modelFile(model)
+                    .rotationX(rotX)
+                    .rotationY(rotY)
+                    //.uvLock(true)
                     .build();
         });
     }
+
 }

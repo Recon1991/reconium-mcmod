@@ -23,7 +23,7 @@ public class CustomBuddingGemBlock extends AmethystBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, RandomSource random) {
         if (random.nextInt(GROWTH_CHANCE) == 0) {
             Direction dir = DIRECTIONS[random.nextInt(DIRECTIONS.length)];
             BlockPos targetPos = pos.relative(dir);
