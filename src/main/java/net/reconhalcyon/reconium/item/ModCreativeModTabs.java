@@ -91,7 +91,7 @@ public class ModCreativeModTabs {
 
     public static final RegistryObject<CreativeModeTab> RECONIUM_BUDDING_TAB = CREATIVE_MODE_TABS.register("reconium_budding_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(ModBlocks.RUBY_BLOCK.get()))  // pick any icon, e.g. budding_ruby if you like
+                    .icon(() -> new ItemStack(ModBlocks.RUBY_BLOCK.get()))
                     .title(Component.translatable("creativetab.reconium_budding_tab"))
                     .displayItems((params, output) -> {
                         // budding blocks
@@ -115,7 +115,7 @@ public class ModCreativeModTabs {
                     .icon(() -> new ItemStack(ModItems.GEOLOGY_PICKAXE.get()))
                     .title(Component.translatable("creativetab.reconium_tools_tab"))
                     .displayItems((params, output) -> {
-                        ModItems.GEOLOGY_PICKAXE.get();
+                        output.accept(ModItems.GEOLOGY_PICKAXE.get());
                     })
                     .build());
 

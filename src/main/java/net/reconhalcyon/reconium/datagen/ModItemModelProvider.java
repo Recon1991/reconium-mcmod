@@ -25,6 +25,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModGemRegistry.GEM_BLOCKS.values().forEach(this::blockWithItem);
         ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(this::blockWithItem);
 
+        // Register geology_pickaxe model
+        this.simpleItem(net.reconhalcyon.reconium.item.ModItems.GEOLOGY_PICKAXE);
+
         for (String gemId : ModGemRegistry.BUDDING_BLOCKS.keySet()) {
             String base = gemId.toLowerCase(Locale.ROOT);
 
