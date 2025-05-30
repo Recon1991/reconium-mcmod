@@ -23,18 +23,24 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+        // ═══╬═══ Gem to Block and Back Recipe Loop ═══╬═══
         ModGemRegistry.GEMS.keySet().forEach(name -> {
             Item gem = ModGemRegistry.GEMS.get(name).get();
             Block block = ModGemRegistry.GEM_BLOCKS.get(name).get();
             gemToBlockAndBack(consumer, block, gem);
         });
-        // glass recipe loop
+        // ═══╬═══ Gem Glass Block Recipe Loop ═══╬═══
         ModGemRegistry.GEM_GLASS_BLOCKS.keySet().forEach(name -> {
             Item gem = ModGemRegistry.GEMS.get(name).get();
             Block glassBlock = ModGemRegistry.GEM_GLASS_BLOCKS.get(name).get();
             gemGlassRecipe(consumer, glassBlock, gem);
         });
-
+        ModGemRegistry.BUDDING_BLOCKS.keySet().forEach( name -> {
+            Item gem = ModGemRegistry.GEMS.get(name).get();
+            Block buddingBlock = ModGemRegistry.BUDDING_BLOCKS.get(name).get();
+            Block gemBlock = ModGemRegistry.GEM_BLOCKS.get(name).get();
+            gemBuddingBlockRecipe(consumer, buddingBlock, gem, gemBlock);
+        });
     }
 
     private void gemToBlockAndBack(Consumer<FinishedRecipe> consumer, Block block, Item gem) {
@@ -63,5 +69,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(glassBlock)).getPath() + "_crafting"));
     }
 
-
+    private void gemBuddingBlockRecipe(Consumer<FinishedRecipe> consumer, Block buddingBlock, Item gem, Block GemBlock) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, buddingBlock)
+                .pattern("CGC")
+                .pattern("GBG")
+                .pattern("CGC")
+                .define('C', Items.COBBLESTONE)
+                .define('G', gem)
+                .define('B', GemBlock)
+                .unlockedBy(getHasName(gem), has(gem))
+                .save(consumer, new ResourceLocation(Reconium.MOD_ID,
+                        Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(buddingBlock)).getPath() + "_crafting"));
+    }
 }
