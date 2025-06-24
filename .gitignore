@@ -1,25 +1,23 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
-.classpath
-.project
+# === General ===
+.gradle/
+build/
+out/
+bin/
 
-# idea
-out
+# === IntelliJ / Eclipse ===
+.idea/
+*.iml
 *.ipr
 *.iws
-*.iml
-.idea
+*.classpath
+*.project
+*.settings/
 
-# gradle
-build
-.gradle
+# === OS / Misc ===
+.DS_Store
+Thumbs.db
 
-# other
-eclipse
-run
-
-# Files from Forge MDK
-forge*changelog.txt
+# === Minecraft Specific ===
+run/
+logs/
+/1.20.1/forge/src/generated/

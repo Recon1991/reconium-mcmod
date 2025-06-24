@@ -1,0 +1,25 @@
+architectury {
+    common rootProject.enabled_platforms.split(',')
+}
+
+dependencies {
+    // Only for @Environment annotations — don't use other classes from Fabric Loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.mc_1_20_1_fabric_loader_version}"
+
+    // Architectury API
+    modImplementation "dev.architectury:architectury:${rootProject.mc_1_20_1_architectury_api_version}"
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+tasks.withType(Javadoc).configureEach {
+    it.options.encoding = "UTF-8"
+}

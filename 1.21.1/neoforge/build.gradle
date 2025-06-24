@@ -1,0 +1,67 @@
+plugins {
+    id 'com.gradleup.shadow'
+}
+
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    // NeoForge Loader
+    modImplementation "net.neoforged:neoforge:${rootProject.mc_1_21_1_neoforge_version}"
+
+    // Architectury (optional)
+    modImplementation "dev.architectury:architectury-neoforge:${rootProject.mc_1_21_1_architectury_api_version}"
+
+    // Common module
+    common(project(path: ':1.21.1:common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':1.21.1:common', configuration: 'transformProductionNeoForge')
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('META-INF/mods.toml') {
+        expand version: project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc).configureEach {
+    it.options.encoding = 'UTF-8'
+}

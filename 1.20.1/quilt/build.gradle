@@ -1,0 +1,76 @@
+plugins {
+    id 'com.gradleup.shadow'
+}
+
+repositories {
+    maven { url 'https://maven.quiltmc.org/repository/release/' }
+}
+
+architectury {
+    platformSetupLoomIde()
+    loader('quilt')
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentQuilt.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    modImplementation "org.quiltmc:quilt-loader:${rootProject.mc_1_20_1_quilt_loader_version}"
+    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProject.mc_1_20_1_quilted_fabric_api_version}"
+
+    modImplementation("dev.architectury:architectury-fabric:${rootProject.mc_1_20_1_architectury_api_version}") {
+        exclude group: 'net.fabricmc'
+        exclude group: 'net.fabricmc.fabric-api'
+    }
+
+    common(project(path: ':1.20.1:common', configuration: 'namedElements')) {
+        transitive = false
+    }
+
+    shadowBundle project(path: ':1.20.1:common', configuration: 'transformProductionQuilt')
+}
+
+processResources {
+    inputs.property 'group', project.group
+    inputs.property 'version', project.version
+
+    filesMatching('quilt.mod.json') {
+        expand group: project.group, version: project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+    it.options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc).configureEach {
+    it.options.encoding = 'UTF-8'
+}
