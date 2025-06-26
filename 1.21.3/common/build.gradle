@@ -6,13 +6,5 @@ dependencies {
     // We depend on Fabric Loader here to use the Fabric @Environment annotations,
     // which get remapped to the correct annotations on each platform.
     // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.mc_1_21_3_fabric_loader_version"
-}
-
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
-}
-
-tasks.withType(Javadoc).configureEach {
-    it.options.encoding = 'UTF-8'
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 }

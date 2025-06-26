@@ -1,23 +1,10 @@
-plugins {
-    id 'java'
-}
-
 architectury {
     common rootProject.enabled_platforms.split(',')
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
 dependencies {
-    // Only for @Environment annotations — do NOT use other classes from Fabric Loader
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.mc_1_21_2_fabric_loader_version}"
-}
-
-// Ensure UTF-8 encoding for Javadoc tasks
-tasks.withType(Javadoc).configureEach {
-    it.options.encoding = 'UTF-8'
+    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
+    // which get remapped to the correct annotations on each platform.
+    // Do NOT use other classes from Fabric Loader.
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 }
