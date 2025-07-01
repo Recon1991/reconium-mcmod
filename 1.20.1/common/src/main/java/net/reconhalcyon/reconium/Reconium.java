@@ -1,0 +1,18 @@
+package net.reconhalcyon.reconium;
+
+import com.mojang.logging.LogUtils;
+import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.item.ModCreativeModTabs;
+import net.reconhalcyon.reconium.item.ModItems;
+import org.slf4j.Logger;
+
+public final class Reconium {
+    public static final String MOD_ID = "reconium";
+    private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static void Init() {
+        ModCreativeModTabs.init();
+        ModItems.init();
+        ModBlocks.init();
+    }
+}

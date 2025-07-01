@@ -4,8 +4,6 @@ import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import net.reconhalcyon.ExampleMod;
-
 @Mod(ExampleMod.MOD_ID)
 public final class ExampleModForge {
     public ExampleModForge() {

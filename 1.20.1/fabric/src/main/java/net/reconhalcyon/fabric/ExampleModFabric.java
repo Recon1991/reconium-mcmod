@@ -2,8 +2,6 @@ package net.reconhalcyon.fabric;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.reconhalcyon.ExampleMod;
-
 public final class ExampleModFabric implements ModInitializer {
     @Override
     public void onInitialize() {
