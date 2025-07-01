@@ -11,6 +11,13 @@ architectury {
 allprojects {
     group = rootProject.maven_group
     version = rootProject.mod_version
+
+    repositories {
+        maven {
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
+        }
+    }
 }
 
 subprojects {
@@ -33,6 +40,15 @@ subprojects {
 
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+        //mappings loom.officialMojangMappings()
+        /*mappings loom.layered() {
+            officialMojangMappings()
+            parchment("org.parchmentmc:parchment-$rootProject.parchment_version") {
+                // This is the ParchmentMC mappings, which are used to provide better names for Minecraft classes and methods.
+                // You can remove this if you don't want to use ParchmentMC.
+                // See https://parchmentmc.org/ for more information.
+            }
+        }*/
         mappings "net.fabricmc:yarn:$rootProject.yarn_mappings:v2"
     }
 
