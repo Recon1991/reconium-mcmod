@@ -4,14 +4,11 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
-import net.reconhalcyon.reconium.Reconium;
-import net.reconhalcyon.reconium.registry.ModGemRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
 
-import java.util.Locale;
-import java.util.Objects;
+import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.item.ModItems;
+import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 public class ModItemModelProvider extends ItemModelProvider {
 
@@ -21,40 +18,41 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        // Gem items
         ModGemRegistry.GEMS.values().forEach(this::simpleItem);
+
+        // Blocks
         ModGemRegistry.GEM_BLOCKS.values().forEach(this::blockWithItem);
         ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(this::blockWithItem);
 
-        // Register geology_pickaxe model
-        this.simpleItem(net.reconhalcyon.reconium.item.ModItems.GEOLOGY_PICKAXE);
+        // Tool
+        simpleItem(ModItems.GEOLOGY_PICKAXE);
 
-        for (String gemId : ModGemRegistry.BUDDING_BLOCKS.keySet()) {
-            String base = gemId.toLowerCase(Locale.ROOT);
-
-            withExistingParent(Objects.requireNonNull(ModGemRegistry.BUDDING_BLOCKS.get(gemId).getId()).getPath(),
-                    modLoc("block/budding_" + base));
-
-            withExistingParent(Objects.requireNonNull(ModGemRegistry.SMALL_BUDS.get(gemId).getId()).getPath(),
-                    modLoc("block/small_" + base + "_bud"));
-            withExistingParent(Objects.requireNonNull(ModGemRegistry.MEDIUM_BUDS.get(gemId).getId()).getPath(),
-                    modLoc("block/medium_" + base + "_bud"));
-            withExistingParent(Objects.requireNonNull(ModGemRegistry.LARGE_BUDS.get(gemId).getId()).getPath(),
-                    modLoc("block/large_" + base + "_bud"));
-            withExistingParent(Objects.requireNonNull(ModGemRegistry.CLUSTERS.get(gemId).getId()).getPath(),
-                    modLoc("block/" + base + "_cluster"));
-        }
+        // Budding + clusters
+        ModGemRegistry.BUDDING_BLOCKS.forEach((name, block) ->
+                withExistingParent(getName(block), modLoc("block/budding_" + name)));
+        ModGemRegistry.SMALL_BUDS.forEach((name, block) ->
+                withExistingParent(getName(block), modLoc("block/small_" + name + "_bud")));
+        ModGemRegistry.MEDIUM_BUDS.forEach((name, block) ->
+                withExistingParent(getName(block), modLoc("block/medium_" + name + "_bud")));
+        ModGemRegistry.LARGE_BUDS.forEach((name, block) ->
+                withExistingParent(getName(block), modLoc("block/large_" + name + "_bud")));
+        ModGemRegistry.CLUSTERS.forEach((name, block) ->
+                withExistingParent(getName(block), modLoc("block/" + name + "_cluster")));
     }
 
-    private void simpleItem(RegistryObject<Item> item) {
-        assert item.getId() != null;
-        withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Reconium.MOD_ID, "item/" + item.getId().getPath()));
+    private void simpleItem(Item item) {
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
+        withExistingParent(id.getPath(), new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Reconium.MOD_ID, "item/" + id.getPath()));
     }
 
-    private void blockWithItem(RegistryObject<Block> block) {
-        assert block.getId() != null;
-        withExistingParent(block.getId().getPath(),
-                modLoc("block/" + block.getId().getPath()));
+    private void blockWithItem(Block block) {
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
+        withExistingParent(id.getPath(), modLoc("block/" + id.getPath()));
+    }
+
+    private String getName(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
 }

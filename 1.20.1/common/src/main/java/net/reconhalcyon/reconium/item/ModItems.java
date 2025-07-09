@@ -1,7 +1,7 @@
 package net.reconhalcyon.reconium.item;
 
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -43,7 +43,7 @@ public class ModItems {
 
     private static Item register(String name, Item item) {
         ResourceLocation id = new ResourceLocation(Reconium.MOD_ID, name);
-        Item result = Registry.register(Registries.ITEM, id, item);
+        Item result = Registry.register(BuiltInRegistries.ITEM, id, item);
         ITEM_REGISTRY.put(name, result);
         return result;
     }

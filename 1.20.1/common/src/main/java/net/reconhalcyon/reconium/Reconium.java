@@ -8,9 +8,10 @@ import org.slf4j.Logger;
 
 public final class Reconium {
     public static final String MOD_ID = "reconium";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static void Init() {
+    // Called from the platform-specific init hooks
+    public static void initCommon() {
         ModCreativeModTabs.init();
         ModItems.init();
         ModBlocks.init();

@@ -36,3 +36,23 @@
     "another-mod": "*"
   }
 }
+
+
+
+{
+  "schemaVersion": 1,
+  "id": "reconium",
+  "version": "${version}",
+  "name": "Reconium",
+  "description": "Adds gems and minerals to Minecraft.",
+  "authors": ["Recon"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.reconhalcyon.reconium.fabric.ReconiumFabric"
+    ]
+  },
+  ...
+}
+

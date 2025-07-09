@@ -33,3 +33,34 @@ mandatory = true
 versionRange = "[9.2.14,)"
 ordering = "AFTER"
 side = "BOTH"
+
+
+
+modId="reconium"
+version="${file.jarVersion}"
+displayName="Reconium"
+description='''Adds gems and minerals to Minecraft'''
+
+[[mods]]
+modId="reconium"
+version="${file.jarVersion}"
+displayName="Reconium"
+description="Adds gems and minerals to Minecraft."
+authors="Recon"
+
+[[dependencies.reconium]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+modLoader="javafml"
+loaderVersion="[47,)"
+license="ARR"
+
+# Entry point
+[[mods]]
+modId="reconium"
+...
+entrypoint="net.reconhalcyon.reconium.forge.ReconiumForge"
