@@ -1,6 +1,9 @@
 {
   "creativetab.reconium_tab": "Reconium",
   "creativetab.reconium_ores_tab": "Reconium Ores",
+  "creativetab.reconium_budding_tab": "Reconium Clusters",
+  "creativetab.reconium_tools_tab": "Reconium Tools"
+  "creativetab.reconium_flowers_tab": "Reconium Flowers",
 
   "item.reconium.moonstone": "Moonstone",
   "item.reconium.grey_quartz": "Grey Quartz",
@@ -18,6 +21,6 @@
   "item.reconium.amethyst": "Amethyst",
   "item.reconium.spinel": "Spinel",
   "item.reconium.pink_diamond": "Pink Diamond",
-  "creativetab.reconium_budding_tab": "Reconium Clusters",
-  "creativetab.reconium_tools_tab": "Reconium Tools"
+  "item.reconium.watermelon_tourmaline": "Watermelon Tourmaline",
+  "item.reconium.seraphinite": "Seraphinite"
 }

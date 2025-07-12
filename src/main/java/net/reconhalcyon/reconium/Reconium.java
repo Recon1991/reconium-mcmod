@@ -1,6 +1,8 @@
 package net.reconhalcyon.reconium;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -37,9 +39,12 @@ public class Reconium {
         modEventBus.addListener(this::addCreative);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            assert ModBlocks.MOONSTONE_FLOWER.getId() != null;
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.MOONSTONE_FLOWER.getId(), ModBlocks.POTTED_MOONSTONE_FLOWER);
+            LOGGER.info("Common setup for Reconium mod is complete.");
+        });
     }
 
     // Add the example block item to the building blocks tab

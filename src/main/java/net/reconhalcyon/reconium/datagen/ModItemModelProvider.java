@@ -4,10 +4,12 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Locale;
@@ -24,6 +26,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModGemRegistry.GEMS.values().forEach(this::simpleItem);
         ModGemRegistry.GEM_BLOCKS.values().forEach(this::blockWithItem);
         ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(this::blockWithItem);
+
+        simpleFlowerBlockItemBlockTexture(ModBlocks.MOONSTONE_FLOWER);
 
         // Register geology_pickaxe model
         this.simpleItem(net.reconhalcyon.reconium.item.ModItems.GEOLOGY_PICKAXE);
@@ -56,5 +60,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         assert block.getId() != null;
         withExistingParent(block.getId().getPath(),
                 modLoc("block/" + block.getId().getPath()));
+    }
+
+    private ItemModelBuilder simpleFlowerBlockItemBlockTexture(RegistryObject<Block> item) {
+        assert item.getId() != null;
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Reconium.MOD_ID,"block/flower/" + item.getId().getPath()));
     }
 }

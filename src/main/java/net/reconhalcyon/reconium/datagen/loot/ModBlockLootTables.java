@@ -51,6 +51,11 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                 new ResourceLocation(Reconium.MOD_ID, "geology_pickaxes")
         );
 
+        this.dropSelf(ModBlocks.MOONSTONE_FLOWER.get());
+        this.add(ModBlocks.POTTED_MOONSTONE_FLOWER.get(),
+                createPotFlowerItemTable(ModBlocks.MOONSTONE_FLOWER.get())
+        );
+
         ModGemRegistry.getAllOreBlockGroups().forEach(group -> {
             for (Map.Entry<String, RegistryObject<Block>> entry : group.entrySet()) {
                 String gemName = entry.getKey();

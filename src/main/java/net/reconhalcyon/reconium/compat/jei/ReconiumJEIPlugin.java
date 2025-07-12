@@ -31,7 +31,7 @@ public class ReconiumJEIPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+    public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
         // Show which blocks/tools open a category
         //registration.addRecipeCatalyst(new ItemStack(ModItems.GEOLOGY_PICKAXE.get()), net.minecraft.world.item.crafting.RecipeType.CRAFTING);
     }

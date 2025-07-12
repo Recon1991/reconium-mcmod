@@ -2,6 +2,7 @@ package net.reconhalcyon.reconium.datagen;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -10,6 +11,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Locale;
@@ -46,6 +48,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
             createAmethystClusterModel(ModGemRegistry.LARGE_BUDS.get(gemId), "large_" + base + "_bud");
             createAmethystClusterModel(ModGemRegistry.CLUSTERS.get(gemId), base + "_cluster");
         }
+
+        // ═══╬═══ Flower/Potted Flower States ═══╬═══
+        simpleBlockWithItem(ModBlocks.MOONSTONE_FLOWER.get(), models().cross("moonstone_flower",
+                modLoc("block/flower/moonstone_flower")).renderType("cutout"));
+        simpleBlockWithItem(ModBlocks.POTTED_MOONSTONE_FLOWER.get(), models().singleTexture("potted_moonstone_flower", new ResourceLocation("flower_pot_cross"), "plant",
+                modLoc("block/flower/moonstone_flower")).renderType("cutout"));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){
