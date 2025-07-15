@@ -5,6 +5,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -12,10 +14,12 @@ import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.block.custom.GemTallCropBlock;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 
@@ -54,6 +58,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 modLoc("block/flower/moonstone_flower")).renderType("cutout"));
         simpleBlockWithItem(ModBlocks.POTTED_MOONSTONE_FLOWER.get(), models().singleTexture("potted_moonstone_flower", new ResourceLocation("flower_pot_cross"), "plant",
                 modLoc("block/flower/moonstone_flower")).renderType("cutout"));
+
+        makeGemCrop(((CropBlock) ModBlocks.GEM_TALL_CROP.get()), "gem_tall_crop_stage_", "gem_tall_crop_stage_");
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){
@@ -64,6 +70,20 @@ public class ModBlockStateProvider extends BlockStateProvider {
         assert blockRegistryObject.getId() != null;
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().cubeAll(blockRegistryObject.getId().getPath(), modLoc("block/" + blockRegistryObject.getId().getPath())));
+    }
+
+    public void makeGemCrop(CropBlock block, String modelName, String textureName) {
+        Function<BlockState, ConfiguredModel[]> function = state -> gemCropStates(state, block, modelName, textureName);
+
+        getVariantBuilder(block).forAllStates(function);
+    }
+
+    private ConfiguredModel[] gemCropStates(BlockState state, CropBlock block, String modelName, String textureName) {
+        ConfiguredModel[] models = new ConfiguredModel[1];
+        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((GemTallCropBlock) block).getAgeProperty()),
+                new ResourceLocation(Reconium.MOD_ID, "block/crop/" + textureName + state.getValue(((GemTallCropBlock) block).getAgeProperty()))).renderType("cutout"));
+
+        return models;
     }
 
     private void createAmethystClusterModel(RegistryObject<Block> block, String name) {

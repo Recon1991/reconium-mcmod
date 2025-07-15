@@ -122,6 +122,7 @@ public class ModCreativeModTabs {
                     .title(Component.translatable("creativetab.reconium_flowers_tab"))
                     .displayItems((params, output) -> {
                         output.accept(ModBlocks.MOONSTONE_FLOWER.get());
+                        output.accept(ModItems.GEM_SEEDS.get());
                     })
                     .build());
 

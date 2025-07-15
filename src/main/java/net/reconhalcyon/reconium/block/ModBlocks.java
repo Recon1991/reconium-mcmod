@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.custom.CustomBuddingGemBlock;
+import net.reconhalcyon.reconium.block.custom.GemTallCropBlock;
 import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import net.reconhalcyon.reconium.registry.ReconRegistryHelper;
@@ -159,6 +160,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> POTTED_MOONSTONE_FLOWER = BLOCKS.register("potted_moonstone_flower",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), ModBlocks.MOONSTONE_FLOWER,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_ALLIUM).noOcclusion()));
+
+    public static final RegistryObject<Block> GEM_TALL_CROP = BLOCKS.register("gem_tall_crop",
+            () -> new GemTallCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)
+                    .noOcclusion().noCollission()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

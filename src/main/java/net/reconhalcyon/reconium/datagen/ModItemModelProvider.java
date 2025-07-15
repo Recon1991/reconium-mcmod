@@ -10,6 +10,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
 import java.util.Locale;
@@ -28,10 +29,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModGemRegistry.GEM_GLASS_BLOCKS.values().forEach(this::blockWithItem);
 
         simpleFlowerBlockItemBlockTexture(ModBlocks.MOONSTONE_FLOWER);
+        simpleItem(ModItems.GEM_SEEDS);
 
         // Register geology_pickaxe model
         this.simpleItem(net.reconhalcyon.reconium.item.ModItems.GEOLOGY_PICKAXE);
 
+        // Register all budding blocks and their associated buds and clusters
         for (String gemId : ModGemRegistry.BUDDING_BLOCKS.keySet()) {
             String base = gemId.toLowerCase(Locale.ROOT);
 

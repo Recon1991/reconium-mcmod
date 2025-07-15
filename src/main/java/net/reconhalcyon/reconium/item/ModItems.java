@@ -1,11 +1,13 @@
 package net.reconhalcyon.reconium.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
+import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.item.custom.ModGeologyPickaxeItem;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 import net.reconhalcyon.reconium.registry.ReconRegistryHelper;
@@ -34,6 +36,8 @@ public class ModItems {
     public static final RegistryObject<Item> WATERMELON_TOURMALINE = createAndRegisterGemItem("watermelon_tourmaline");
     public static final RegistryObject<Item> GEOLOGY_PICKAXE = ITEMS.register("geology_pickaxe", ModGeologyPickaxeItem::new);
 
+    public static final RegistryObject<Item> GEM_SEEDS = ITEMS.register("gem_seeds",
+            () -> new ItemNameBlockItem(ModBlocks.GEM_TALL_CROP.get(), new Item.Properties()));
 
     // Gem register helper method to condense boilerplate
     private static RegistryObject<Item> createAndRegisterGemItem(String name) {
