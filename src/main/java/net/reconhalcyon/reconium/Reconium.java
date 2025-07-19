@@ -16,6 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.item.ModCreativeModTabs;
 import net.reconhalcyon.reconium.item.ModItems;
+import net.reconhalcyon.reconium.villager.ModVillagers;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -31,6 +32,7 @@ public class Reconium {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModVillagers.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

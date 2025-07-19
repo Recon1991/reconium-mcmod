@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.custom.CustomBuddingGemBlock;
+import net.reconhalcyon.reconium.block.custom.FacetingBlock;
 import net.reconhalcyon.reconium.block.custom.GemTallCropBlock;
 import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
@@ -164,6 +165,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> GEM_TALL_CROP = BLOCKS.register("gem_tall_crop",
             () -> new GemTallCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)
                     .noOcclusion().noCollission()));
+
+    public static final RegistryObject<Block> FACETING_BLOCK = registerBlock("faceting_block",
+            () -> new FacetingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

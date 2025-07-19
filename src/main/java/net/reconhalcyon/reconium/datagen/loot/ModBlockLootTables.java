@@ -61,6 +61,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                 createPotFlowerItemTable(ModBlocks.MOONSTONE_FLOWER.get())
         );
 
+        this.dropSelf(ModBlocks.FACETING_BLOCK.get());
+
         LootItemCondition.Builder lootitemcondition$builder2 = LootItemBlockStatePropertyCondition
                 .hasBlockStateProperties(ModBlocks.GEM_TALL_CROP.get())
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GemTallCropBlock.AGE, 7))

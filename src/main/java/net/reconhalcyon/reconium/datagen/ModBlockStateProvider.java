@@ -60,6 +60,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 modLoc("block/flower/moonstone_flower")).renderType("cutout"));
 
         makeGemCrop(((CropBlock) ModBlocks.GEM_TALL_CROP.get()), "gem_tall_crop_stage_", "gem_tall_crop_stage_");
+
+        simpleBlock(ModBlocks.FACETING_BLOCK.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/faceting_block")));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){
