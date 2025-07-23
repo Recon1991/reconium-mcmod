@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -22,11 +23,14 @@ public class ModVillagers {
             () -> new PoiType(ImmutableSet.copyOf(ModBlocks.FACETING_BLOCK.get().getStateDefinition().getPossibleStates()),
                     1, 1));
 
-    public static final RegistryObject<VillagerProfession> SOUND_MASTER =
+    public static final RegistryObject<VillagerProfession> LAPIDARY_MASTER =
             VILLAGER_PROFESSIONS.register("lapidary", () -> new VillagerProfession("lapidary",
                     holder -> holder.get() == LAPIDARY_POI.get(), holder -> holder.get() == LAPIDARY_POI.get(),
                     ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_MASON));
 
-
+    public static void register(IEventBus eventBus){
+        POI_TYPES.register(eventBus);
+        VILLAGER_PROFESSIONS.register(eventBus);
+    }
 
 }
