@@ -1,0 +1,62 @@
+# ===========================
+#  Reconium Gem Definition
+#  Gem: Moonstone
+# ===========================
+
+name = "moonstone"
+
+# ---------------------------
+# Core Blocks
+# ---------------------------
+[blocks]
+gemBlock = "reconium:moonstone_block"
+gemGlass = "reconium:moonstone_glass"
+
+# ---------------------------
+# Ore Variants
+# Omit any section or key to skip registering that variant.
+# ---------------------------
+[blocks.ore]
+stone     = "reconium:moonstone_ore"
+deepslate = "reconium:deepslate_moonstone_ore"
+nether    = "reconium:nether_moonstone_ore"
+end       = "reconium:end_moonstone_ore"
+
+# ---------------------------
+# Budding System
+# Include only if this gem supports budding.
+# ---------------------------
+[blocks.budding]
+buddingBlock = "reconium:budding_moonstone"
+smallBud     = "reconium:small_moonstone_bud"
+mediumBud    = "reconium:medium_moonstone_bud"
+largeBud     = "reconium:large_moonstone_bud"
+cluster      = "reconium:moonstone_cluster"
+
+# ---------------------------
+# Crystaflora Crop (Tall Crop)
+# Include only if this gem supports a tall crop.
+# ---------------------------
+[blocks.crop]
+tallCropBlock = "reconium:moonstone_crop"
+
+# ---------------------------
+# Items
+# ---------------------------
+[items]
+gemItem = "reconium:moonstone"
+
+# ---------------------------
+# Worldgen Settings (Optional)
+# ---------------------------
+[worldgen.stone]
+minY = -64
+maxY = 256
+veinSize = 6
+veinsPerChunk = 8
+
+[worldgen.deepslate]
+minY = -16
+maxY = 0
+veinSize = 4
+veinsPerChunk = 6

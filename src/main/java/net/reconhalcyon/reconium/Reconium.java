@@ -16,6 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.reconhalcyon.reconium.block.ModBlocks;
+import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
 import net.reconhalcyon.reconium.config.ReconiumConfig;
 import net.reconhalcyon.reconium.item.ModCreativeModTabs;
 import net.reconhalcyon.reconium.item.ModItems;
@@ -36,6 +37,8 @@ public class Reconium {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModVillagers.register(modEventBus);
+
+        ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
