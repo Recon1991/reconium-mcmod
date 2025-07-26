@@ -24,6 +24,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.reconhalcyon.reconium.item.ModItems;
+import net.reconhalcyon.reconium.screen.FacetingStationMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,7 +104,7 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return
+        return new FacetingStationMenu(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package net.reconhalcyon.reconium;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,6 +21,8 @@ import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
 import net.reconhalcyon.reconium.config.ReconiumConfig;
 import net.reconhalcyon.reconium.item.ModCreativeModTabs;
 import net.reconhalcyon.reconium.item.ModItems;
+import net.reconhalcyon.reconium.screen.FacetingStationScreen;
+import net.reconhalcyon.reconium.screen.ModMenuTypes;
 import net.reconhalcyon.reconium.villager.ModVillagers;
 import org.slf4j.Logger;
 
@@ -39,6 +42,8 @@ public class Reconium {
         ModVillagers.register(modEventBus);
 
         ModBlockEntities.register(modEventBus);
+
+        ModMenuTypes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -73,7 +78,7 @@ public class Reconium {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+            MenuScreens.register(ModMenuTypes.FACETING_STATION_MENU.get(), FacetingStationScreen::new);
         }
     }
 }

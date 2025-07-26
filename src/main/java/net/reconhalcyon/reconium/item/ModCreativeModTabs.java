@@ -113,6 +113,7 @@ public class ModCreativeModTabs {
                     .title(Component.translatable("creativetab.reconium_tools_tab"))
                     .displayItems((params, output) -> {
                         output.accept(ModItems.GEOLOGY_PICKAXE.get());
+                        output.accept(ModBlocks.FACETING_BLOCK.get());
                     })
                     .build());
 
