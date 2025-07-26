@@ -1,6 +1,5 @@
 package net.reconhalcyon.reconium.screen;
 
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,7 +12,6 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.block.entity.FacetingStationBlockEntity;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class FacetingStationMenu extends AbstractContainerMenu {
     public final FacetingStationBlockEntity blockEntity;
@@ -105,22 +103,22 @@ public class FacetingStationMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(@NotNull Player pPlayer) {
+    public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.FACETING_BLOCK.get());
+                pPlayer, ModBlocks.FACETING_STATION.get());
     }
 
-    private void addPlayerInventory(Inventory inv) {
+    private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
             }
         }
     }
 
-    private void addPlayerHotbar(Inventory inv) {
-        for (int k = 0; k < 9; ++k) {
-            this.addSlot(new Slot(inv, k, 8 + k * 18, 142));
+    private void addPlayerHotbar(Inventory playerInventory) {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 }

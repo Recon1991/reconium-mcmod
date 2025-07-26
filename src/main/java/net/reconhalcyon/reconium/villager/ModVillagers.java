@@ -20,7 +20,7 @@ public class ModVillagers {
 
     // ═══╬═══ Custom Villagers ═══╬═══
     public static final RegistryObject<PoiType> LAPIDARY_POI = POI_TYPES.register("lapidary_poi",
-            () -> new PoiType(ImmutableSet.copyOf(ModBlocks.FACETING_BLOCK.get().getStateDefinition().getPossibleStates()),
+            () -> new PoiType(ImmutableSet.copyOf(ModBlocks.FACETING_STATION.get().getStateDefinition().getPossibleStates()),
                     1, 1));
 
     public static final RegistryObject<VillagerProfession> LAPIDARY_MASTER =

@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 @Mod(Reconium.MOD_ID)
 public class Reconium {
     public static final String MOD_ID = "reconium";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public Reconium() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -45,12 +45,11 @@ public class Reconium {
 
         ModMenuTypes.register(modEventBus);
 
-        modEventBus.addListener(this::commonSetup);
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ReconiumConfig.SPEC);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        modEventBus.addListener(this::commonSetup);
 
+        MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
     }
 

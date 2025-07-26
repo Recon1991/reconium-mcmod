@@ -17,7 +17,7 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<FacetingStationMenu>> FACETING_STATION_MENU =
             registerMenuType("faceting_station_menu", FacetingStationMenu::new);
 
-    public static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
+    private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));
     }
 

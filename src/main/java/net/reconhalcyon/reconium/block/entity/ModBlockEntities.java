@@ -15,7 +15,7 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<FacetingStationBlockEntity>> FACETING_STATION_BE =
             BLOCK_ENTITIES.register("faceting_station_be",
                     () -> BlockEntityType.Builder.of(FacetingStationBlockEntity::new,
-                            ModBlocks.FACETING_BLOCK.get()).build(null));
+                            ModBlocks.FACETING_STATION.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

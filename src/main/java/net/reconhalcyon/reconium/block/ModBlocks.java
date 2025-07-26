@@ -166,7 +166,7 @@ public class ModBlocks {
             () -> new GemTallCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)
                     .noOcclusion().noCollission()));
 
-    public static final RegistryObject<Block> FACETING_BLOCK = registerBlock("faceting_block",
+    public static final RegistryObject<Block> FACETING_STATION = registerBlock("faceting_station",
             () -> new FacetingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

@@ -1,5 +1,6 @@
 package net.reconhalcyon.reconium.block.custom;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -20,60 +21,64 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import net.reconhalcyon.reconium.block.entity.FacetingStationBlockEntity;
 import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
+import org.apache.commons.logging.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 public class FacetingBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 12, 16);
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     public FacetingBlock(Properties pProperties) {
         super(pProperties);
     }
 
     @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
+    public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public void onRemove(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+    public void onRemove(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof FacetingStationBlockEntity) {
                 ((FacetingStationBlockEntity) blockEntity).drops();
             }
 
-            super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
+            super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
         }
     }
 
     @Override
-    public InteractionResult use(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if (entity instanceof FacetingStationBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (FacetingStationBlockEntity) entity, pPos);
+            if(entity instanceof FacetingStationBlockEntity) {
+                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (FacetingStationBlockEntity)entity, pPos);
+                LOGGER.info("Right-clicked Faceting Station at {}", pPos);
             } else {
-                throw new IllegalStateException("FacetingStation Container is not an instance of FacetingStationBlockEntity");
+                throw new IllegalStateException("Our Container provider is missing!");
             }
         }
 
-        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new FacetingStationBlockEntity(pPos, pState);
     }
-
+    @Nullable
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel,BlockState pState, BlockEntityType<T> pBlockEntityType) {
         if(pLevel.isClientSide()) {
             return null; // No client-side ticker needed
         }
