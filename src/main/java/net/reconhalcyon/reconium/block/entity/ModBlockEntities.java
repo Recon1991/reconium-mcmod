@@ -12,10 +12,10 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reconium.MOD_ID);
 
-    public static final RegistryObject<BlockEntityType<FacetingStationBlockEntity>> FACETING_STATION_BE =
-            BLOCK_ENTITIES.register("faceting_station_be",
-                    () -> BlockEntityType.Builder.of(FacetingStationBlockEntity::new,
-                            ModBlocks.FACETING_STATION.get()).build(null));
+    public static final RegistryObject<BlockEntityType<GemPolishingStationBlockEntity>> GEM_POLISHING_STATION_BE =
+            BLOCK_ENTITIES.register("gem_polishing_station_be", () ->
+                    BlockEntityType.Builder.of(GemPolishingStationBlockEntity::new,
+                            ModBlocks.GEM_POLISHING_STATION.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

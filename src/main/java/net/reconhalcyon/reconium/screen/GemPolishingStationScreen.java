@@ -9,11 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.reconhalcyon.reconium.Reconium;
 
-public class FacetingStationScreen extends AbstractContainerScreen<FacetingStationMenu> {
+public class GemPolishingStationScreen extends AbstractContainerScreen<GemPolishingStationMenu> {
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Reconium.MOD_ID, "textures/gui/faceting_station_gui.png");
 
-    public FacetingStationScreen(FacetingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public GemPolishingStationScreen(GemPolishingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         Reconium.LOGGER.info("FacetingStationScreen constructed! {}", menu);
     }

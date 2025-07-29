@@ -1,0 +1,12 @@
+{
+  "type": "reconium:gem_polishing",
+  "ingredients": [
+    {
+      "item": "reconium:sapphire_ore"
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "reconium:sapphire"
+  }
+}

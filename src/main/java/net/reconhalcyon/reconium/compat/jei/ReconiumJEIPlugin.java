@@ -2,37 +2,43 @@ package net.reconhalcyon.reconium.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.reconhalcyon.reconium.Reconium;
-import net.reconhalcyon.reconium.item.ModItems;
-import org.jetbrains.annotations.NotNull;
+import net.reconhalcyon.reconium.compat.GemPolishingCategory;
+import net.reconhalcyon.reconium.recipe.GemPolishingRecipe;
+import net.reconhalcyon.reconium.screen.GemPolishingStationScreen;
+
+
+import java.util.List;
 
 @JeiPlugin
 public class ReconiumJEIPlugin implements IModPlugin {
-    private static final ResourceLocation ID = new ResourceLocation(Reconium.MOD_ID, "jei_plugin");
-
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
-        return ID;
+    public ResourceLocation getPluginUid() {
+        return new ResourceLocation(Reconium.MOD_ID, "jei_plugin");
     }
 
     @Override
-    public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
-        // For custom categories — optional, can be skipped for basic recipes
+    public void registerCategories(IRecipeCategoryRegistration registration) {
+        registration.addRecipeCategories(new GemPolishingCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
-    public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        // Optional if you're just using vanilla JSON shaped/shapeless recipes
+    public void registerRecipes(IRecipeRegistration registration) {
+        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+
+        List<GemPolishingRecipe> polishingRecipes = recipeManager.getAllRecipesFor(GemPolishingRecipe.Type.INSTANCE);
+        registration.addRecipes(GemPolishingCategory.GEM_POLISHING_TYPE, polishingRecipes);
     }
 
     @Override
-    public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-        // Show which blocks/tools open a category
-        //registration.addRecipeCatalyst(new ItemStack(ModItems.GEOLOGY_PICKAXE.get()), net.minecraft.world.item.crafting.RecipeType.CRAFTING);
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(GemPolishingStationScreen.class, 60, 30, 20, 30,
+                GemPolishingCategory.GEM_POLISHING_TYPE);
     }
 }

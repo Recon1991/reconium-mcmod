@@ -19,18 +19,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
-import net.reconhalcyon.reconium.block.entity.FacetingStationBlockEntity;
+import net.reconhalcyon.reconium.block.entity.GemPolishingStationBlockEntity;
 import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
-import org.apache.commons.logging.Log;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-public class FacetingBlock extends BaseEntityBlock {
+public class GemPolishingStationBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 12, 16);
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public FacetingBlock(Properties pProperties) {
+    public GemPolishingStationBlock(Properties pProperties) {
         super(pProperties);
     }
 
@@ -45,11 +43,11 @@ public class FacetingBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof FacetingStationBlockEntity) {
-                ((FacetingStationBlockEntity) blockEntity).drops();
+            if (blockEntity instanceof GemPolishingStationBlockEntity) {
+                ((GemPolishingStationBlockEntity) blockEntity).drops();
             }
 
             super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
@@ -60,8 +58,8 @@ public class FacetingBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof FacetingStationBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (FacetingStationBlockEntity)entity, pPos);
+            if(entity instanceof GemPolishingStationBlockEntity) {
+                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (GemPolishingStationBlockEntity)entity, pPos);
                 LOGGER.info("Right-clicked Faceting Station at {}", pPos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
@@ -74,7 +72,7 @@ public class FacetingBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new FacetingStationBlockEntity(pPos, pState);
+        return new GemPolishingStationBlockEntity(pPos, pState);
     }
     @Nullable
     @Override
@@ -83,7 +81,7 @@ public class FacetingBlock extends BaseEntityBlock {
             return null; // No client-side ticker needed
         }
 
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.FACETING_STATION_BE.get(),
+        return createTickerHelper(pBlockEntityType, ModBlockEntities.GEM_POLISHING_STATION_BE.get(),
                 (pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1));
     }
 }

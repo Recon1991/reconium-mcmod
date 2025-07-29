@@ -1,0 +1,12 @@
+{
+  "type": "reconium:gem_polishing",
+  "ingredients": [
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "item": "minecraft:diamond"
+  }
+}

@@ -10,22 +10,22 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import net.reconhalcyon.reconium.block.ModBlocks;
-import net.reconhalcyon.reconium.block.entity.FacetingStationBlockEntity;
+import net.reconhalcyon.reconium.block.entity.GemPolishingStationBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class FacetingStationMenu extends AbstractContainerMenu {
-    public final FacetingStationBlockEntity blockEntity;
+public class GemPolishingStationMenu extends AbstractContainerMenu {
+    public final GemPolishingStationBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-    public FacetingStationMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
+    public GemPolishingStationMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public FacetingStationMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(ModMenuTypes.FACETING_STATION_MENU.get(), pContainerId);
+    public GemPolishingStationMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(ModMenuTypes.GEM_POLISHING_MENU.get(), pContainerId);
         checkContainerSize(inv, 2);
-        blockEntity= ((FacetingStationBlockEntity) entity);
+        blockEntity= ((GemPolishingStationBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
 
@@ -41,7 +41,7 @@ public class FacetingStationMenu extends AbstractContainerMenu {
     }
 
     public boolean isCrafting() {
-        return this.data.get(0) > 0;
+        return data.get(0) > 0;
     }
 
     public int getScaledProgress() {
@@ -51,6 +51,8 @@ public class FacetingStationMenu extends AbstractContainerMenu {
 
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
+
+
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -84,7 +86,6 @@ public class FacetingStationMenu extends AbstractContainerMenu {
                 return ItemStack.EMPTY;  // EMPTY_ITEM
             }
         } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            // This is a TE slot so merge the stack into the players inventory
             if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
                 return ItemStack.EMPTY;
             }
@@ -102,10 +103,12 @@ public class FacetingStationMenu extends AbstractContainerMenu {
         return copyOfSourceStack;
     }
 
+
+
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.FACETING_STATION.get());
+                pPlayer, ModBlocks.GEM_POLISHING_STATION.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

@@ -14,10 +14,10 @@ public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reconium.MOD_ID);
 
-    public static final RegistryObject<MenuType<FacetingStationMenu>> FACETING_STATION_MENU =
-            registerMenuType("faceting_station_menu", FacetingStationMenu::new);
+    public static final RegistryObject<MenuType<GemPolishingStationMenu>> GEM_POLISHING_MENU =
+            registerMenuType("gem_polishing_menu", GemPolishingStationMenu::new);
 
-    private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
+    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));
     }
 

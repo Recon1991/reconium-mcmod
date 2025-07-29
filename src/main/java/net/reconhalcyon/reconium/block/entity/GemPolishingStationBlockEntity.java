@@ -24,13 +24,26 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.reconhalcyon.reconium.item.ModItems;
-import net.reconhalcyon.reconium.screen.FacetingStationMenu;
+import net.reconhalcyon.reconium.recipe.GemPolishingRecipe;
+import net.reconhalcyon.reconium.screen.GemPolishingStationMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FacetingStationBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(2);
+import java.util.Optional;
+
+public class GemPolishingStationBlockEntity extends BlockEntity implements MenuProvider {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            setChanged();
+            if(!level.isClientSide()) {
+                level.sendBlockUpdated(getBlockPos(),
+                        getBlockState(),
+                        getBlockState(),
+                        3);
+            }
+        }
+    };
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
@@ -41,14 +54,14 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
     private int progress = 0;
     private int maxProgress = 78;
 
-    public FacetingStationBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.FACETING_STATION_BE.get(), pPos, pBlockState);
+    public GemPolishingStationBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(ModBlockEntities.GEM_POLISHING_STATION_BE.get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int pIndex) {
                 return switch (pIndex) {
-                    case 0 -> FacetingStationBlockEntity.this.progress;
-                    case 1 -> FacetingStationBlockEntity.this.maxProgress;
+                    case 0 -> GemPolishingStationBlockEntity.this.progress;
+                    case 1 -> GemPolishingStationBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -56,8 +69,8 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
             @Override
             public void set(int pIndex, int pValue) {
                 switch (pIndex) {
-                    case 0 -> FacetingStationBlockEntity.this.progress = pValue;
-                    case 1 -> FacetingStationBlockEntity.this.maxProgress = pValue;
+                    case 0 -> GemPolishingStationBlockEntity.this.progress = pValue;
+                    case 1 -> GemPolishingStationBlockEntity.this.maxProgress = pValue;
                 }
             }
 
@@ -66,6 +79,14 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
                 return 2;
             }
         };
+    }
+
+    public ItemStack getRenderStack() {
+        if (itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty()) {
+            return itemHandler.getStackInSlot(INPUT_SLOT);
+        } else {
+            return itemHandler.getStackInSlot(OUTPUT_SLOT);
+        }
     }
 
     @Override
@@ -95,7 +116,6 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
 
-        assert this.level != null;
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
@@ -104,15 +124,16 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
         return Component.translatable("block.reconium.faceting_station");
     }
 
+    @Nullable
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return new FacetingStationMenu(pContainerId, pPlayerInventory, this, this.data);
+    public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
+        return new GemPolishingStationMenu(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory", itemHandler.serializeNBT());
-        pTag.putInt("faceting_station.progress", progress);
+        pTag.putInt("gem_polishing_station.progress", progress);
 
         super.saveAdditional(pTag);
     }
@@ -121,7 +142,7 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
     public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
-        progress = pTag.getInt("faceting_station.progress");
+        progress = pTag.getInt("gem_polishing_station.progress");
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
@@ -143,7 +164,8 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
     }
 
     private void craftItem() {
-        ItemStack result = new ItemStack(ModItems.MOONSTONE.get());
+        Optional<GemPolishingRecipe> recipe = getCurrentRecipe();
+        ItemStack result = recipe.get().getResultItem(null);
         this.itemHandler.extractItem(INPUT_SLOT, 1, false);
 
         this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
@@ -151,10 +173,23 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
     }
 
     private boolean hasRecipe() {
-        boolean hasCraftingItem = this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == ModItems.MOONSTONE.get();
-        ItemStack result = new ItemStack(ModItems.GEM_SEEDS.get());
+        Optional<GemPolishingRecipe> recipe = getCurrentRecipe();
 
-        return hasCraftingItem && canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
+        if(recipe.isEmpty()) {
+            return false;
+        }
+        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
+
+        return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
+    }
+
+    private Optional<GemPolishingRecipe> getCurrentRecipe() {
+        SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
+        for (int i = 0; i < this.itemHandler.getSlots(); i++) {
+            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
+        }
+        return this.level.getRecipeManager()
+                .getRecipeFor(GemPolishingRecipe.Type.INSTANCE, inventory, level);
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
@@ -174,6 +209,7 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
         progress++;
     }
 
+    @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
@@ -183,5 +219,4 @@ public class FacetingStationBlockEntity extends BlockEntity implements MenuProvi
     public @NotNull CompoundTag getUpdateTag() {
         return saveWithoutMetadata();
     }
-
 }

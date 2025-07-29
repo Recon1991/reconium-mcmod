@@ -21,7 +21,8 @@ import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
 import net.reconhalcyon.reconium.config.ReconiumConfig;
 import net.reconhalcyon.reconium.item.ModCreativeModTabs;
 import net.reconhalcyon.reconium.item.ModItems;
-import net.reconhalcyon.reconium.screen.FacetingStationScreen;
+import net.reconhalcyon.reconium.recipe.ModRecipes;
+import net.reconhalcyon.reconium.screen.GemPolishingStationScreen;
 import net.reconhalcyon.reconium.screen.ModMenuTypes;
 import net.reconhalcyon.reconium.villager.ModVillagers;
 import org.slf4j.Logger;
@@ -39,13 +40,15 @@ public class Reconium {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
         ModVillagers.register(modEventBus);
 
         ModBlockEntities.register(modEventBus);
-
         ModMenuTypes.register(modEventBus);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ReconiumConfig.SPEC);
+        ModRecipes.register(modEventBus);
+
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ReconiumConfig.SPEC);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -77,7 +80,8 @@ public class Reconium {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            MenuScreens.register(ModMenuTypes.FACETING_STATION_MENU.get(), FacetingStationScreen::new);
+            Reconium.LOGGER.info("MenuType instance at client setup: {}", ModMenuTypes.GEM_POLISHING_MENU.get());
+            MenuScreens.register(ModMenuTypes.GEM_POLISHING_MENU.get(), GemPolishingStationScreen::new);
         }
     }
 }
