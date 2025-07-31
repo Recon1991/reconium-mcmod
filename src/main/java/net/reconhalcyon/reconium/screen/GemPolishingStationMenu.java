@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import net.reconhalcyon.reconium.block.ModBlocks;
-import net.reconhalcyon.reconium.block.entity.GemPolishingStationBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class GemPolishingStationMenu extends AbstractContainerMenu {

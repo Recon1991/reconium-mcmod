@@ -1,10 +1,10 @@
 {
 	"format_version": "1.21.6",
-	"credit": "Made with Blockbench",
+	"credit": "Made with Blockbench by Recon",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "reconium:block/faceting_station",
-		"particle": "reconium:block/faceting_station"
+		"0": "reconium:block/gem_polishing_station",
+		"particle": "reconium:block/gem_polishing_station"
 	},
 	"elements": [
 		{

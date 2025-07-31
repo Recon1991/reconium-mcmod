@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.reconhalcyon.reconium.Reconium;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -33,6 +34,11 @@ public class GemPolishingRecipe implements Recipe<SimpleContainer> {
         }
 
         return inputItems.get(0).test(pContainer.getItem(0));
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return inputItems;
     }
 
     @Override
@@ -75,7 +81,7 @@ public class GemPolishingRecipe implements Recipe<SimpleContainer> {
         public static final ResourceLocation ID = new ResourceLocation(Reconium.MOD_ID, "gem_polishing");
 
         @Override
-        public GemPolishingRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
+        public @NotNull GemPolishingRecipe fromJson(@NotNull ResourceLocation pRecipeId, @NotNull JsonObject pSerializedRecipe) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
 
             JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");

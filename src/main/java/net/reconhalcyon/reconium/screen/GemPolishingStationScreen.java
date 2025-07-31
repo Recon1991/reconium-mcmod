@@ -11,7 +11,7 @@ import net.reconhalcyon.reconium.Reconium;
 
 public class GemPolishingStationScreen extends AbstractContainerScreen<GemPolishingStationMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Reconium.MOD_ID, "textures/gui/faceting_station_gui.png");
+            new ResourceLocation(Reconium.MOD_ID, "textures/gui/gem_polishing_station_gui.png");
 
     public GemPolishingStationScreen(GemPolishingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);

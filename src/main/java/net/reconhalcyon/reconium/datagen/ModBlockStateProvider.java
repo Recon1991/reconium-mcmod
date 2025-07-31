@@ -61,8 +61,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         makeGemCrop(((CropBlock) ModBlocks.GEM_TALL_CROP.get()), "gem_tall_crop_stage_", "gem_tall_crop_stage_");
 
-        simpleBlockWithItem(ModBlocks.GEM_POLISHING_STATION.get(),
-                new ModelFile.UncheckedModelFile(modLoc("block/faceting_station")));
+        simpleBlock(ModBlocks.GEM_POLISHING_STATION.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/gem_polishing_station")));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){

@@ -10,15 +10,12 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
-import net.reconhalcyon.reconium.config.ReconiumConfig;
 import net.reconhalcyon.reconium.item.ModCreativeModTabs;
 import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.recipe.ModRecipes;
@@ -80,8 +77,10 @@ public class Reconium {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            Reconium.LOGGER.info("MenuType instance at client setup: {}", ModMenuTypes.GEM_POLISHING_MENU.get());
-            MenuScreens.register(ModMenuTypes.GEM_POLISHING_MENU.get(), GemPolishingStationScreen::new);
+            event.enqueueWork(() -> {
+                Reconium.LOGGER.info("MenuType instance at client setup: {}", ModMenuTypes.GEM_POLISHING_MENU.get());
+                MenuScreens.register(ModMenuTypes.GEM_POLISHING_MENU.get(), GemPolishingStationScreen::new);
+            });
         }
     }
 }
