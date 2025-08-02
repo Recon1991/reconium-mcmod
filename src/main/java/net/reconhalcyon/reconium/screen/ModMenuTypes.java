@@ -11,18 +11,22 @@ import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 
 public class ModMenuTypes {
+    static {
+        Reconium.LOGGER.info("ModMenuTypes class loaded.");
+    }
+
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reconium.MOD_ID);
 
     public static final RegistryObject<MenuType<GemPolishingStationMenu>> GEM_POLISHING_MENU =
             registerMenuType("gem_polishing_menu", GemPolishingStationMenu::new);
 
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
+
+    private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));
     }
 
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
     }
-
 }

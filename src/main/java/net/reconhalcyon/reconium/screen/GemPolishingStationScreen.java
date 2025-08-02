@@ -13,9 +13,10 @@ public class GemPolishingStationScreen extends AbstractContainerScreen<GemPolish
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Reconium.MOD_ID, "textures/gui/gem_polishing_station_gui.png");
 
+
     public GemPolishingStationScreen(GemPolishingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-        Reconium.LOGGER.info("FacetingStationScreen constructed! {}", menu);
+        Reconium.LOGGER.info("GemPolishingStationScreen initialized.");
     }
 
     @Override
@@ -26,28 +27,28 @@ public class GemPolishingStationScreen extends AbstractContainerScreen<GemPolish
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
+        pGuiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        renderProgressArrow(guiGraphics, x, y);
+        renderProgressArrow(pGuiGraphics, x, y);
     }
 
-    private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
-        if(menu.isCrafting()) {
-            guiGraphics.blit(TEXTURE, x + 85, y + 30, 176, 0, 8, menu.getScaledProgress());
+    private void renderProgressArrow(GuiGraphics pGuiGraphics, int x, int y) {
+        if(menu.isCrafting()){
+            pGuiGraphics.blit(TEXTURE, x + 85, y + 30, 176, 0, 8, menu.getScaledProgress());
         }
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderBackground(guiGraphics);
-        super.render(guiGraphics, mouseX, mouseY, delta);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        renderBackground(pGuiGraphics);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 }

@@ -73,14 +73,14 @@ public class Reconium {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    /*
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            event.enqueueWork(() -> {
-                Reconium.LOGGER.info("MenuType instance at client setup: {}", ModMenuTypes.GEM_POLISHING_MENU.get());
-                MenuScreens.register(ModMenuTypes.GEM_POLISHING_MENU.get(), GemPolishingStationScreen::new);
-            });
+            Reconium.LOGGER.info("MenuType instance at client setup: {}", ModMenuTypes.GEM_POLISHING_MENU.get());
+            MenuScreens.register(ModMenuTypes.GEM_POLISHING_MENU.get(), GemPolishingStationScreen::new);
         }
     }
+    */
 }
