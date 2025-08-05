@@ -60,9 +60,7 @@ public class GemPolishingStationBlock extends BaseEntityBlock {
             } else {
                 throw new IllegalStateException("Container provider is missing!");
             }
-            return InteractionResult.CONSUME;
         }
-
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
