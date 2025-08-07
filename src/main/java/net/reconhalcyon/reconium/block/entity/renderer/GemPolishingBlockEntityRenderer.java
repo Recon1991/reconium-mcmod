@@ -28,9 +28,11 @@ public class GemPolishingBlockEntityRenderer implements BlockEntityRenderer<GemP
         ItemStack itemStack = blockEntity.getRenderStack();
 
         poseStack.pushPose();
-        poseStack.translate(0.5f, 1.0f, 0.5f); // Center the item in the block entity
-        poseStack.scale(0.35f, 0.35f, 0.35f); // Scale the item down for better visibility
-        poseStack.mulPose(Axis.XP.rotationDegrees(270)); // Rotate the item to face the player
+        poseStack.translate(0.55f, 0.6f, 0.65f);
+        poseStack.scale(0.25f, 0.25f, 0.25f); // Scale the item down for better visibility
+        poseStack.mulPose(Axis.XP.rotationDegrees(90)); // Rotate the item to face the player
+        poseStack.mulPose(Axis.YN.rotationDegrees(22.5f)); // Rotate the item to align with the mast arm
+        poseStack.mulPose(Axis.ZP.rotationDegrees(90)); // Slightly tilt the item to align with the angle of the mast arm
 
         itemRenderer.renderStatic(
                 itemStack,
