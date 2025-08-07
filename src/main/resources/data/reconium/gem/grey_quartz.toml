@@ -2,7 +2,7 @@
 # Reconium Gem Definition
 # --------------------------
 
-name = "moonstone"
+name = "grey_quartz"
 
 # --- Feature Flags ---
 hasOre = true
