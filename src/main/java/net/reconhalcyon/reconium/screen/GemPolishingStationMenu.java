@@ -7,8 +7,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.block.entity.GemPolishingStationBlockEntity;
 
@@ -31,11 +30,8 @@ public class GemPolishingStationMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-                this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11));
-                this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 59));
-
-        });
+        this.addSlot(new SlotItemHandler(this.blockEntity.getItemHandler(), 0, 80, 11));
+        this.addSlot(new SlotItemHandler(this.blockEntity.getItemHandler(), 1, 80, 59));
 
         addDataSlots(data);
     }
@@ -122,3 +118,7 @@ public class GemPolishingStationMenu extends AbstractContainerMenu {
         }
     }
 }
+
+
+
+

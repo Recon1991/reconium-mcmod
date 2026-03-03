@@ -6,7 +6,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.item.ModItems;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(ItemTags.create(new ResourceLocation(Reconium.MOD_ID, "geology_pickaxes")))
+        tag(ItemTags.create(ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "geology_pickaxes")))
                 .add(ModItems.GEOLOGY_PICKAXE.get());
     }
 }
+
+
+
+

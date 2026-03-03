@@ -18,7 +18,7 @@ import java.util.List;
 public class JEIReconiumPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(Reconium.MOD_ID, "jei_plugin");
+        return ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "jei_plugin");
     }
 
     @Override
@@ -40,3 +40,7 @@ public class JEIReconiumPlugin implements IModPlugin {
                 GemPolishingCategory.GEM_POLISHING_TYPE);
     }
 }
+
+
+
+

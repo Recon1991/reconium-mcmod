@@ -54,3 +54,7 @@ public class GemPolishingBlockEntityRenderer implements BlockEntityRenderer<GemP
         return LightTexture.pack(bLight, sLight);
     }
 }
+
+
+
+

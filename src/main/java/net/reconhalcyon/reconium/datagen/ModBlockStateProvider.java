@@ -7,11 +7,10 @@ import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.block.custom.GemTallCropBlock;
@@ -29,8 +28,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        for (Map<String, RegistryObject<Block>> group : ModGemRegistry.getAllOreBlockGroups()) {
-            for (RegistryObject<Block> block : group.values()) {
+        for (Map<String, java.util.function.Supplier<Block>> group : ModGemRegistry.getAllOreBlockGroups()) {
+            for (java.util.function.Supplier<Block> block : group.values()) {
                 blockWithItem(block);
             }
         }
@@ -65,11 +64,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 new ModelFile.UncheckedModelFile(modLoc("block/gem_polishing_station")));
     }
 
-    private void blockWithItem(RegistryObject<Block> blockRegistryObject){
+    private void blockWithItem(java.util.function.Supplier<Block> blockRegistryObject){
         simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
     }
 
-    private void blockWithItemTranslucent(RegistryObject<Block> blockRegistryObject) {
+    private void blockWithItemTranslucent(java.util.function.Supplier<Block> blockRegistryObject) {
         assert blockRegistryObject.getId() != null;
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().cubeAll(blockRegistryObject.getId().getPath(), modLoc("block/" + blockRegistryObject.getId().getPath())));
@@ -84,12 +83,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private ConfiguredModel[] gemCropStates(BlockState state, CropBlock block, String modelName, String textureName) {
         ConfiguredModel[] models = new ConfiguredModel[1];
         models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((GemTallCropBlock) block).getAgeProperty()),
-                new ResourceLocation(Reconium.MOD_ID, "block/crop/" + textureName + state.getValue(((GemTallCropBlock) block).getAgeProperty()))).renderType("cutout"));
+                ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "block/crop/" + textureName + state.getValue(((GemTallCropBlock) block).getAgeProperty()))).renderType("cutout"));
 
         return models;
     }
 
-    private void createAmethystClusterModel(RegistryObject<Block> block, String name) {
+    private void createAmethystClusterModel(java.util.function.Supplier<Block> block, String name) {
         System.out.println("→ Generating cluster model for: " + name);
         ModelFile model = models().cross(name, modLoc("block/budding/" + name)).renderType("cutout");
         getVariantBuilder(block.get()).forAllStates(state -> {
@@ -131,3 +130,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
 }
+
+
+
+

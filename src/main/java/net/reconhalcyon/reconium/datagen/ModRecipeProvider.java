@@ -6,8 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
@@ -52,7 +51,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', Items.STICK)
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
-                .save(consumer, new ResourceLocation(Reconium.MOD_ID, "geology_pickaxe"));
+                .save(consumer, ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "geology_pickaxe"));
     }
 
     private void gemToBlockAndBack(Consumer<FinishedRecipe> consumer, Block block, Item gem) {
@@ -77,8 +76,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('G', Items.GLASS)
                 .define('C', gem)
                 .unlockedBy(getHasName(gem), has(gem))
-                .save(consumer, new ResourceLocation(Reconium.MOD_ID,
-                        Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(glassBlock)).getPath() + "_crafting"));
+                .save(consumer, ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(glassBlock)).getPath() + "_crafting"));
     }
 
     private void gemBuddingBlockRecipe(Consumer<FinishedRecipe> consumer, Block buddingBlock, Item gem, Block GemBlock) {
@@ -90,7 +88,10 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('G', gem)
                 .define('B', GemBlock)
                 .unlockedBy(getHasName(gem), has(gem))
-                .save(consumer, new ResourceLocation(Reconium.MOD_ID,
-                        Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(buddingBlock)).getPath() + "_crafting"));
+                .save(consumer, ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(buddingBlock)).getPath() + "_crafting"));
     }
 }
+
+
+
+

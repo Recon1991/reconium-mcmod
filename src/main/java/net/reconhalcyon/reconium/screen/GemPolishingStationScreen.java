@@ -11,7 +11,7 @@ import net.reconhalcyon.reconium.Reconium;
 
 public class GemPolishingStationScreen extends AbstractContainerScreen<GemPolishingStationMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Reconium.MOD_ID, "textures/gui/gem_polishing_station_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "textures/gui/gem_polishing_station_gui.png");
 
 
     public GemPolishingStationScreen(GemPolishingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -47,8 +47,11 @@ public class GemPolishingStationScreen extends AbstractContainerScreen<GemPolish
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics);
+        renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 }
+
+
+

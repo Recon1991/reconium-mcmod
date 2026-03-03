@@ -13,14 +13,18 @@ public class ModTags {
         public static final TagKey<Block> NEEDS_GEOLOGY_TOOL = tag("needs_geology_tool");
 
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(new ResourceLocation(Reconium.MOD_ID, name));
+            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, name));
         }
     }
 
     public static class Items {
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation(Reconium.MOD_ID, name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, name));
         }
     }
 }
+
+
+
+

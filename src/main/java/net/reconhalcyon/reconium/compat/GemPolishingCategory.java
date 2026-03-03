@@ -16,9 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.reconhalcyon.reconium.Reconium;
 
 public class GemPolishingCategory implements IRecipeCategory<GemPolishingRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(Reconium.MOD_ID, "gem_polishing");
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reconium.MOD_ID,
-            "textures/gui/gem_polishing_station_category_gui.png");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "gem_polishing");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "textures/gui/gem_polishing_station_category_gui.png");
 
     public static final RecipeType<GemPolishingRecipe> GEM_POLISHING_TYPE =
             new RecipeType<>(UID, GemPolishingRecipe.class);
@@ -58,3 +57,7 @@ public class GemPolishingCategory implements IRecipeCategory<GemPolishingRecipe>
         builder.addSlot(RecipeIngredientRole.OUTPUT, 80, 59).addItemStack(recipe.getResultItem(null));
     }
 }
+
+
+
+

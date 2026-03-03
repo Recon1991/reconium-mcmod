@@ -4,9 +4,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
@@ -15,7 +14,7 @@ public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reconium.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> RECONIUM_TAB = CREATIVE_MODE_TABS.register("reconium_tab",
+    public static final java.util.function.Supplier<CreativeModeTab> RECONIUM_TAB = CREATIVE_MODE_TABS.register("reconium_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.MOONSTONE.get()))
                     .title(Component.translatable("creativetab.reconium_tab"))
                     .displayItems((pParameters, pOutput) -> {
@@ -78,7 +77,7 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
-    public static final RegistryObject<CreativeModeTab> RECONIUM_ORES_TAB = CREATIVE_MODE_TABS.register("reconium_ores_tab",
+    public static final java.util.function.Supplier<CreativeModeTab> RECONIUM_ORES_TAB = CREATIVE_MODE_TABS.register("reconium_ores_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.MOONSTONE_ORE.get()))
                     .title(Component.translatable("creativetab.reconium_ores_tab"))
                     .displayItems((pParameters, pOutput) -> {
@@ -89,7 +88,7 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
-    public static final RegistryObject<CreativeModeTab> RECONIUM_BUDDING_TAB = CREATIVE_MODE_TABS.register("reconium_budding_tab",
+    public static final java.util.function.Supplier<CreativeModeTab> RECONIUM_BUDDING_TAB = CREATIVE_MODE_TABS.register("reconium_budding_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModBlocks.RUBY_BLOCK.get()))
                     .title(Component.translatable("creativetab.reconium_budding_tab"))
@@ -107,7 +106,7 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
-    public static final RegistryObject<CreativeModeTab> RECONIUM_TOOLS_TAB = CREATIVE_MODE_TABS.register("reconium_tools_tab",
+    public static final java.util.function.Supplier<CreativeModeTab> RECONIUM_TOOLS_TAB = CREATIVE_MODE_TABS.register("reconium_tools_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModItems.GEOLOGY_PICKAXE.get()))
                     .title(Component.translatable("creativetab.reconium_tools_tab"))
@@ -117,7 +116,7 @@ public class ModCreativeModTabs {
                     })
                     .build());
 
-    public static final RegistryObject<CreativeModeTab> RECONIUM_FLOWERS_TAB = CREATIVE_MODE_TABS.register("reconium_flowers_tab",
+    public static final java.util.function.Supplier<CreativeModeTab> RECONIUM_FLOWERS_TAB = CREATIVE_MODE_TABS.register("reconium_flowers_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModBlocks.MOONSTONE_FLOWER.get()))
                     .title(Component.translatable("creativetab.reconium_flowers_tab"))
@@ -131,5 +130,9 @@ public class ModCreativeModTabs {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 }
+
+
+
+
 
 

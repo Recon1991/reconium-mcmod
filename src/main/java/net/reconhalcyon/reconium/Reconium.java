@@ -1,19 +1,18 @@
 package net.reconhalcyon.reconium;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
 import net.reconhalcyon.reconium.item.ModCreativeModTabs;
@@ -30,9 +29,7 @@ public class Reconium {
     public static final String MOD_ID = "reconium";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public Reconium() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+    public Reconium(IEventBus modEventBus) {
         ModCreativeModTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
@@ -49,14 +46,16 @@ public class Reconium {
 
         modEventBus.addListener(this::commonSetup);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            assert ModBlocks.MOONSTONE_FLOWER.getId() != null;
-            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.MOONSTONE_FLOWER.getId(), ModBlocks.POTTED_MOONSTONE_FLOWER);
+            var moonstoneFlowerId = BuiltInRegistries.BLOCK.getKey(ModBlocks.MOONSTONE_FLOWER.get());
+            if (moonstoneFlowerId != null) {
+                ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(moonstoneFlowerId, ModBlocks.POTTED_MOONSTONE_FLOWER);
+            }
             LOGGER.info("Common setup for Reconium mod is complete.");
         });
     }
@@ -84,3 +83,6 @@ public class Reconium {
     }
     */
 }
+
+
+

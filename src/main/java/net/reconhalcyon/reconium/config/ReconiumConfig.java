@@ -1,23 +1,23 @@
 package net.reconhalcyon.reconium.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
 public class ReconiumConfig {
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec SPEC;
     public static final ReconiumConfig INSTANCE;
 
-    public final ForgeConfigSpec.ConfigValue<List<? extends String>> enabledGems;
+    public final ModConfigSpec.ConfigValue<List<? extends String>> enabledGems;
 
     static {
-        final Pair<ReconiumConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ReconiumConfig::new);
+        final Pair<ReconiumConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ReconiumConfig::new);
         INSTANCE = specPair.getLeft();
         SPEC = specPair.getRight();
     }
 
-    private ReconiumConfig(ForgeConfigSpec.Builder builder) {
+    private ReconiumConfig(ModConfigSpec.Builder builder) {
         builder.push("general");
         enabledGems = builder.comment(
                 "List of enabled gems.",
@@ -31,3 +31,7 @@ public class ReconiumConfig {
         builder.pop();
     }
 }
+
+
+
+

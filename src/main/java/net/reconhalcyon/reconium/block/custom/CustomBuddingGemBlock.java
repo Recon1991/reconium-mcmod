@@ -61,3 +61,7 @@ public class CustomBuddingGemBlock extends AmethystBlock {
         return state.isAir() || (state.is(Blocks.WATER) && state.getFluidState().getAmount() == 8);
     }
 }
+
+
+
+

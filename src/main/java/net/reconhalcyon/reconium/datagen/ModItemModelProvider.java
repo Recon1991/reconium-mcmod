@@ -4,10 +4,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.item.ModItems;
@@ -52,23 +51,27 @@ public class ModItemModelProvider extends ItemModelProvider {
         }
     }
 
-    private void simpleItem(RegistryObject<Item> item) {
+    private void simpleItem(java.util.function.Supplier<Item> item) {
         assert item.getId() != null;
         withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Reconium.MOD_ID, "item/" + item.getId().getPath()));
+                ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "item/" + item.getId().getPath()));
     }
 
-    private void blockWithItem(RegistryObject<Block> block) {
+    private void blockWithItem(java.util.function.Supplier<Block> block) {
         assert block.getId() != null;
         withExistingParent(block.getId().getPath(),
                 modLoc("block/" + block.getId().getPath()));
     }
 
-    private ItemModelBuilder simpleFlowerBlockItemBlockTexture(RegistryObject<Block> item) {
+    private ItemModelBuilder simpleFlowerBlockItemBlockTexture(java.util.function.Supplier<Block> item) {
         assert item.getId() != null;
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Reconium.MOD_ID,"block/flower/" + item.getId().getPath()));
+                ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "block/flower/" + item.getId().getPath()));
     }
 }
+
+
+
+

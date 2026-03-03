@@ -1,7 +1,9 @@
 package net.reconhalcyon.reconium.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -17,16 +19,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import net.reconhalcyon.reconium.block.entity.GemPolishingStationBlockEntity;
 import net.reconhalcyon.reconium.block.entity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
 public class GemPolishingStationBlock extends BaseEntityBlock {
+    public static final MapCodec<GemPolishingStationBlock> CODEC = simpleCodec(GemPolishingStationBlock::new);
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 12, 16);
 
     public GemPolishingStationBlock(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -51,12 +58,11 @@ public class GemPolishingStationBlock extends BaseEntityBlock {
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 
-    @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof GemPolishingStationBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer) pPlayer), (GemPolishingStationBlockEntity) blockEntity, pPos);
+                ((ServerPlayer) pPlayer).openMenu((MenuProvider) blockEntity, pPos);
             } else {
                 throw new IllegalStateException("Container provider is missing!");
             }

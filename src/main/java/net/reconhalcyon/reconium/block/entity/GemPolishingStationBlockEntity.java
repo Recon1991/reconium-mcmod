@@ -1,7 +1,7 @@
 package net.reconhalcyon.reconium.block.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -16,22 +16,20 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.item.ModItems;
 import net.reconhalcyon.reconium.recipe.GemPolishingRecipe;
 import net.reconhalcyon.reconium.screen.GemPolishingStationMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.windows.INPUT;
 
 import java.util.Optional;
 
@@ -48,8 +46,6 @@ public class GemPolishingStationBlockEntity extends BlockEntity implements MenuP
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
-
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     protected final ContainerData data;
     private int progress = 0;
@@ -90,24 +86,8 @@ public class GemPolishingStationBlockEntity extends BlockEntity implements MenuP
         }
     }
 
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ITEM_HANDLER) {
-            return lazyItemHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
+    public IItemHandler getItemHandler() {
+        return itemHandler;
     }
 
     public void drops() {
@@ -129,17 +109,17 @@ public class GemPolishingStationBlockEntity extends BlockEntity implements MenuP
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        pTag.put("inventory", itemHandler.serializeNBT());
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
         pTag.putInt("gem_polishing_station.progress", progress);
 
-        super.saveAdditional(pTag);
+        super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(pTag, pRegistries);
+        itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory"));
         progress = pTag.getInt("gem_polishing_station.progress");
     }
 
@@ -163,7 +143,7 @@ public class GemPolishingStationBlockEntity extends BlockEntity implements MenuP
 
     private void craftItem() {
         Optional<GemPolishingRecipe> recipe = getCurrentRecipe();
-        ItemStack result = recipe.get().getResultItem(null);
+        ItemStack result = recipe.get().getResultItem(level.registryAccess());
 
         this.itemHandler.extractItem(INPUT_SLOT, 1, false);
 
@@ -183,12 +163,10 @@ public class GemPolishingStationBlockEntity extends BlockEntity implements MenuP
     }
 
     private Optional<GemPolishingRecipe> getCurrentRecipe() {
-        SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
-            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
-        }
-
-        return this.level.getRecipeManager().getRecipeFor(GemPolishingRecipe.Type.INSTANCE, inventory, level);
+        SingleRecipeInput inventory = new SingleRecipeInput(this.itemHandler.getStackInSlot(INPUT_SLOT));
+        return this.level.getRecipeManager()
+                .getRecipeFor(GemPolishingRecipe.Type.INSTANCE, inventory, level)
+                .map(RecipeHolder::value);
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
@@ -212,8 +190,13 @@ public class GemPolishingStationBlockEntity extends BlockEntity implements MenuP
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
     public @NotNull CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
+        if (level == null) {
+            return new CompoundTag();
+        }
+        return saveWithoutMetadata(level.registryAccess());
     }
 }
+
+
+

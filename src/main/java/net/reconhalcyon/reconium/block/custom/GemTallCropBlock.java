@@ -1,7 +1,6 @@
 package net.reconhalcyon.reconium.block.custom;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.IPlantable;
 import net.reconhalcyon.reconium.item.ModItems;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,9 +50,9 @@ public class GemTallCropBlock extends CropBlock {
             int currentAge = this.getAge(pState);
 
             if (currentAge < this.getMaxAge()) {
-                float growthSpeed = getGrowthSpeed(this, pLevel, pPos);
+                float growthSpeed = getGrowthSpeed(pState, pLevel, pPos);
 
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt((int)(25.0F / growthSpeed) + 1) == 0)) {
+                if (pRandom.nextInt((int)(25.0F / growthSpeed) + 1) == 0) {
                     if(currentAge == FIRST_STAGE_MAX_AGE) {
                         if(pLevel.getBlockState(pPos.above(1)).is(Blocks.AIR)) {
                             pLevel.setBlock(pPos.above(1), this.getStateForAge(currentAge + 1), 2);
@@ -62,16 +60,9 @@ public class GemTallCropBlock extends CropBlock {
                     } else {
                         pLevel.setBlock(pPos, this.getStateForAge(currentAge + 1), 2);
                     }
-
-                    net.minecraftforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
                 }
             }
         }
-    }
-
-    @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
-        return mayPlaceOn(state, world, pos);
     }
 
     @Override
@@ -116,3 +107,7 @@ public class GemTallCropBlock extends CropBlock {
         pBuilder.add(AGE);
     }
 }
+
+
+
+

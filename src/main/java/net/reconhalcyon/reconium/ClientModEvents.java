@@ -2,13 +2,13 @@ package net.reconhalcyon.reconium;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.reconhalcyon.reconium.registry.ModGemRegistry;
 
-@Mod.EventBusSubscriber(modid = Reconium.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Reconium.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
 
     @SuppressWarnings("deprecation")
@@ -22,3 +22,7 @@ public class ClientModEvents {
         });
     }
 }
+
+
+
+

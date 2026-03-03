@@ -1,64 +1,48 @@
 package net.reconhalcyon.reconium.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.reconhalcyon.reconium.Reconium;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import java.util.List;
 
-public class GemPolishingRecipe implements Recipe<SimpleContainer> {
-    private final NonNullList<Ingredient> inputItems;
-    private final ItemStack output;
-    private final ResourceLocation id;
-
-    public GemPolishingRecipe(NonNullList<Ingredient> inputItems, ItemStack output, ResourceLocation id) {
-        this.inputItems = inputItems;
-        this.output = output;
-        this.id = id;
-    }
-
+public record GemPolishingRecipe(Ingredient inputItem, ItemStack output) implements Recipe<SingleRecipeInput> {
     @Override
-    public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if(pLevel.isClientSide){
+    public boolean matches(SingleRecipeInput input, Level level) {
+        if (level.isClientSide()) {
             return false;
         }
-
-        return inputItems.get(0).test(pContainer.getItem(0));
+        return inputItem.test(input.getItem(0));
     }
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return inputItems;
+        return NonNullList.of(Ingredient.EMPTY, inputItem);
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider provider) {
         return output.copy();
     }
 
     @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider provider) {
         return output.copy();
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
     }
 
     @Override
@@ -71,51 +55,35 @@ public class GemPolishingRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<GemPolishingRecipe> {
+    public static final class Type implements RecipeType<GemPolishingRecipe> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "gem_polishing";
     }
 
-    public static class Serializer implements RecipeSerializer<GemPolishingRecipe> {
+    public static final class Serializer implements RecipeSerializer<GemPolishingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(Reconium.MOD_ID, "gem_polishing");
+        public static final MapCodec<GemPolishingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+                instance.group(
+                        Ingredient.LIST_CODEC_NONEMPTY.fieldOf("ingredients").forGetter(recipe -> List.of(recipe.inputItem())),
+                        ItemStack.STRICT_CODEC.fieldOf("result").forGetter(GemPolishingRecipe::output)
+                ).apply(instance, (ingredients, result) -> new GemPolishingRecipe(ingredients.getFirst(), result))
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, GemPolishingRecipe> STREAM_CODEC = StreamCodec.composite(
+                Ingredient.CONTENTS_STREAM_CODEC,
+                GemPolishingRecipe::inputItem,
+                ItemStack.STREAM_CODEC,
+                GemPolishingRecipe::output,
+                GemPolishingRecipe::new
+        );
 
         @Override
-        public @NotNull GemPolishingRecipe fromJson(@NotNull ResourceLocation pRecipeId, @NotNull JsonObject pSerializedRecipe) {
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-
-            JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
-
-            for(int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
-
-            return new GemPolishingRecipe(inputs, output, pRecipeId);
-        }
-
-        @Nullable
-        @Override
-        public  GemPolishingRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            NonNullList<Ingredient> inputs = NonNullList.withSize(pBuffer.readInt(), Ingredient.EMPTY);
-
-            for(int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromNetwork(pBuffer));
-            }
-
-            ItemStack output = pBuffer.readItem();
-            return new GemPolishingRecipe(inputs, output, pRecipeId);
+        public MapCodec<GemPolishingRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, GemPolishingRecipe pRecipe) {
-            pBuffer.writeInt(pRecipe.inputItems.size());
-
-            for (Ingredient ingredient : pRecipe.getIngredients()) {
-                ingredient.toNetwork(pBuffer);
-            }
-
-            pBuffer.writeItemStack(pRecipe.getResultItem(null), false);
+        public StreamCodec<RegistryFriendlyByteBuf, GemPolishingRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
     }
 }

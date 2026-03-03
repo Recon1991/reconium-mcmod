@@ -20,7 +20,6 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
-import net.minecraftforge.registries.RegistryObject;
 import net.reconhalcyon.reconium.Reconium;
 import net.reconhalcyon.reconium.block.ModBlocks;
 import net.reconhalcyon.reconium.block.custom.GemTallCropBlock;
@@ -53,7 +52,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         // Gem Ores: unified loot table with geology pickaxe vs normal
         TagKey<Item> geologyPickTag = ItemTags.create(
-                new ResourceLocation(Reconium.MOD_ID, "geology_pickaxes")
+                ResourceLocation.fromNamespaceAndPath(Reconium.MOD_ID, "geology_pickaxes")
         );
 
         this.dropSelf(ModBlocks.MOONSTONE_FLOWER.get());
@@ -79,7 +78,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
 
         ModGemRegistry.getAllOreBlockGroups().forEach(group -> {
-            for (Map.Entry<String, RegistryObject<Block>> entry : group.entrySet()) {
+            for (Map.Entry<String, java.util.function.Supplier<Block>> entry : group.entrySet()) {
                 String gemName = entry.getKey();
                 Block  block   = entry.getValue().get();
                 Item   drop    = ModGemRegistry.GEMS.get(gemName).get();
@@ -181,3 +180,6 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                 .collect(Collectors.toList());
     }
 }
+
+
+
