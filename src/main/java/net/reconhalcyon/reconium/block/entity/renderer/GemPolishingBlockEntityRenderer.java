@@ -21,7 +21,6 @@ public class GemPolishingBlockEntityRenderer implements BlockEntityRenderer<GemP
         // Constructor logic if needed
     }
 
-
     @Override
     public void render(GemPolishingStationBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();

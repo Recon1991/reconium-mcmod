@@ -113,6 +113,10 @@ public class ModConfiguredFeatures {
             oreVariant("overworld", ModBlocks.SERAPHINITE_ORE.get(), new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), 6, 7, VerticalAnchor.absolute(20), VerticalAnchor.absolute(96), BiomeTags.IS_OVERWORLD),
             oreVariant("deepslate", ModBlocks.DEEPSLATE_SERAPHINITE_ORE.get(), new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), 6, 7, VerticalAnchor.absolute(20), VerticalAnchor.absolute(96), BiomeTags.IS_OVERWORLD)
         )),
+        new GemSettings("catseye", List.of(
+                oreVariant("overworld", ModBlocks.CATSEYE_ORE.get(), new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), 6, 7, VerticalAnchor.absolute(20), VerticalAnchor.absolute(96), BiomeTags.IS_OVERWORLD)
+                //oreVariant("deepslate", ModBlocks.DEEPSLATE_CATSEYE_ORE.get(), new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), 6, 7, VerticalAnchor.absolute(20), VerticalAnchor.absolute(96), BiomeTags.IS_OVERWORLD)
+        )),
         new GemSettings("watermelon_tourmaline", List.of(
             oreVariant("overworld", ModBlocks.WATERMELON_TOURMALINE_ORE.get(), new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), 6, 7, VerticalAnchor.absolute(10), VerticalAnchor.absolute(90), BiomeTags.IS_OVERWORLD),
             oreVariant("deepslate", ModBlocks.DEEPSLATE_WATERMELON_TOURMALINE_ORE.get(), new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), 6, 7, VerticalAnchor.absolute(10), VerticalAnchor.absolute(90), BiomeTags.IS_OVERWORLD)

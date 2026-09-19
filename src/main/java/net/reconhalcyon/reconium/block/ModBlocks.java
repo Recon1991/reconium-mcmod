@@ -42,6 +42,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> SPINEL_BLOCK = createAndRegisterGemBlock("spinel");
     public static final RegistryObject<Block> PINK_DIAMOND_BLOCK = createAndRegisterGemBlock("pink_diamond");
     public static final RegistryObject<Block> SERAPHINITE_BLOCK = createAndRegisterGemBlock("seraphinite");
+    public static final RegistryObject<Block> CATSEYE_BLOCK = createAndRegisterGemBlock("catseye");
     public static final RegistryObject<Block> WATERMELON_TOURMALINE_BLOCK = createAndRegisterGemBlock("watermelon_tourmaline");
 
     // ═══╬═══ Gem Glass Blocks ═══╬═══
@@ -62,6 +63,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> SPINEL_GLASS = createAndRegisterGemGlassBlock("spinel");
     public static final RegistryObject<Block> PINK_DIAMOND_GLASS = createAndRegisterGemGlassBlock("pink_diamond");
     public static final RegistryObject<Block> SERAPHINITE_GLASS = createAndRegisterGemGlassBlock("seraphinite");
+    public static final RegistryObject<Block> CATSEYE_GLASS = createAndRegisterGemGlassBlock("catseye");
     public static final RegistryObject<Block> WATERMELON_TOURMALINE_GLASS = createAndRegisterGemGlassBlock("watermelon_tourmaline");
 
     // ═══╬═══ Gem Ores ═══╬═══
@@ -149,6 +151,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> DEEPSLATE_SERAPHINITE_ORE = createAndRegisterDeepslateGemOre("seraphinite");
     //public static final RegistryObject<Block> NETHER_SERAPHINITE_ORE = createAndRegisterNetherGemOre("seraphinite");
     //public static final RegistryObject<Block> END_SERAPHINITE_ORE = createAndRegisterEndGemOre("seraphinite");
+
+    public static final RegistryObject<Block> CATSEYE_ORE = createAndRegisterGemOre("catseye");
+    //public static final RegistryObject<Block> DEEPSLATE_CATSEYE_ORE = createAndRegisterDeepslateGemOre("catseye");
+    //public static final RegistryObject<Block> NETHER_CATSEYE_ORE = createAndRegisterNetherGemOre("catseye");
+    //public static final RegistryObject<Block> END_CATSEYE_ORE = createAndRegisterEndGemOre("catseye");
+
 
     public static final RegistryObject<Block> WATERMELON_TOURMALINE_ORE = createAndRegisterGemOre("watermelon_tourmaline");
     public static final RegistryObject<Block> DEEPSLATE_WATERMELON_TOURMALINE_ORE = createAndRegisterDeepslateGemOre("watermelon_tourmaline");

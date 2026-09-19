@@ -36,6 +36,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SPINEL.get());
                         pOutput.accept(ModItems.PINK_DIAMOND.get());
                         pOutput.accept(ModItems.SERAPHINITE.get());
+                        pOutput.accept(ModItems.CATSEYE.get());
                         pOutput.accept(ModItems.WATERMELON_TOURMALINE.get());
 
                         pOutput.accept(ModBlocks.MOONSTONE_BLOCK.get());
@@ -55,6 +56,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.SPINEL_BLOCK.get());
                         pOutput.accept(ModBlocks.PINK_DIAMOND_BLOCK.get());
                         pOutput.accept(ModBlocks.SERAPHINITE_BLOCK.get());
+                        pOutput.accept(ModBlocks.CATSEYE_BLOCK.get());
                         pOutput.accept(ModBlocks.WATERMELON_TOURMALINE_BLOCK.get());
 
                         pOutput.accept(ModBlocks.MOONSTONE_GLASS.get());
@@ -74,6 +76,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.SPINEL_GLASS.get());
                         pOutput.accept(ModBlocks.PINK_DIAMOND_GLASS.get());
                         pOutput.accept(ModBlocks.SERAPHINITE_GLASS.get());
+                        pOutput.accept(ModBlocks.CATSEYE_GLASS.get());
                         pOutput.accept(ModBlocks.WATERMELON_TOURMALINE_GLASS.get());
                     })
                     .build());
@@ -131,5 +134,3 @@ public class ModCreativeModTabs {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 }
-
-

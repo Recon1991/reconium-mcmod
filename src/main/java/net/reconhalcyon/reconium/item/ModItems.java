@@ -33,6 +33,7 @@ public class ModItems {
     public static final RegistryObject<Item> SPINEL = createAndRegisterGemItem("spinel");
     public static final RegistryObject<Item> PINK_DIAMOND = createAndRegisterGemItem("pink_diamond");
     public static final RegistryObject<Item> SERAPHINITE = createAndRegisterGemItem("seraphinite");
+    public static final RegistryObject<Item> CATSEYE = createAndRegisterGemItem("catseye");
     public static final RegistryObject<Item> WATERMELON_TOURMALINE = createAndRegisterGemItem("watermelon_tourmaline");
     public static final RegistryObject<Item> GEOLOGY_PICKAXE = ITEMS.register("geology_pickaxe", ModGeologyPickaxeItem::new);
 
